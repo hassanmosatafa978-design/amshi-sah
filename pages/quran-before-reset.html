@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القرآن الكريم - امشي صح</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+body{
+  font-family:Arial,sans-serif;
+  background:#050805;
+  color:white;
+}
+
+header{
+  background:#063b24;
+  padding:18px;
+  text-align:center;
+  border-bottom:1px solid #174f35;
+}
+
+header h1{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+header p{
+  color:#b7d8c5;
+  font-size:14px;
+}
+
+.back{
+  display:inline-block;
+  margin-top:15px;
+  color:#55b77b;
+  text-decoration:none;
+}
+
+.container{
+  width:92%;
+  max-width:900px;
+  margin:25px auto;
+}
+
+.search,
+select{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #174f35;
+  background:#0b120e;
+  color:white;
+  font-size:16px;
+  outline:none;
+}
+
+.search{
+  margin-bottom:15px;
+}
+
+.readers{
+  background:#0b120e;
+  border:1px solid #174f35;
+  padding:18px;
+  border-radius:16px;
+  margin-bottom:20px;
+}
+
+.readers h2{
+  color:#55b77b;
+  margin-bottom:10px;
+  font-size:19px;
+}
+
+.readers select{
+  margin-bottom:15px;
+}
+
+.surah-list{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:12px;
+}
+
+.surah{
+  background:#0b120e;
+  border:1px solid #174f35;
+  border-radius:15px;
+  padding:17px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.surah:hover{
+  border-color:#55b77b;
+  transform:translateY(-2px);
+}
+
+.surah-number{
+  display:inline-flex;
+  width:35px;
+  height:35px;
+  align-items:center;
+  justify-content:center;
+  border-radius:50%;
+  background:#063b24;
+  color:#55b77b;
+  margin-left:8px;
+}
+
+.surah-name{
+  font-size:18px;
+  font-weight:bold;
+}
+
+.surah-info{
+  color:#888;
+  font-size:13px;
+  margin-top:8px;
+}
+
+.quran-box{
+  display:none;
+  background:#0b120e;
+  border:1px solid #174f35;
+  border-radius:18px;
+  padding:20px;
+  margin-top:20px;
+}
+
+.quran-title{
+  color:#55b77b;
+  text-align:center;
+  font-size:25px;
+  margin-bottom:15px;
+}
+
+.audio-box{
+  background:#063b24;
+  border:1px solid #174f35;
+  padding:15px;
+  border-radius:14px;
+  margin-bottom:20px;
+}
+
+audio{
+  width:100%;
+}
+
+.ayah{
+  font-size:23px;
+  line-height:2.2;
+  padding:17px 5px;
+  border-bottom:1px solid #174f35;
+}
+
+.ayah-number{
+  color:#55b77b;
+  font-size:15px;
+}
+
+.loading{
+  text-align:center;
+  color:#b7d8c5;
+  padding:20px;
+}
+
+.notice{
+  background:#201b08;
+  border:1px solid #68591c;
+  color:#e8d77a;
+  padding:12px;
+  border-radius:10px;
+  margin-bottom:15px;
+  line-height:1.7;
+}
+
+.close-quran{
+  width:100%;
+  padding:12px;
+  margin-bottom:15px;
+  border:0;
+  border-radius:10px;
+  background:#174f35;
+  color:white;
+  font-size:15px;
+}
+
+@media(max-width:600px){
+  .surah-list{
+    grid-template-columns:1fr;
+  }
+
+  .ayah{
+    font-size:21px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📖 القرآن الكريم</h1>
+  <p>اقرأ واستمع إلى كتاب الله</p>
+  <a class="back" href="../index.html">← العودة للرئيسية</a>
+</header>
+
+<main class="container">
+
+  <input
+    type="text"
+    class="search"
+    id="search"
+    placeholder="🔎 ابحث عن سورة..."
+  >
+
+  <section class="readers">
+
+    <h2>📖 اختر الرواية</h2>
+
+    <select id="riwaya">
+      <option value="hafs">حفص عن عاصم</option>
+      <option value="warsh">ورش عن نافع</option>
+      <option value="qaloon">قالون عن نافع</option>
+      <option value="duri">الدوري عن أبي عمرو</option>
+      <option value="susi">السوسي عن أبي عمرو</option>
+      <option value="shubah">شعبة عن عاصم</option>
+      <option value="khalaf">خلف عن حمزة</option>
+      <option value="khallad">خلاد عن حمزة</option>
+      <option value="ibn_dhakwan">ابن ذكوان عن ابن عامر</option>
+      <option value="hisham">هشام عن ابن عامر</option>
+    </select>
+
+    <h2>🎙️ اختر الشيخ</h2>
+
+    <select id="sheikh">
+      <option value="">اختر الشيخ</option>
+    </select>
+
+  </section>
+
+  <section class="surah-list" id="surahList">
+    <div class="loading">جاري تحميل سور القرآن...</div>
+  </section>
+
+  <section class="quran-box" id="quranBox">
+
+    <button class="close-quran" onclick="closeQuran()">
+      ← العودة لقائمة السور
+    </button>
+
+    <h2 class="quran-title" id="quranTitle"></h2>
+
+    <div id="notice"></div>
+
+    <div class="audio-box">
+      <audio id="audioPlayer" controls preload="none"></audio>
+    </div>
+
+    <div id="ayahs">
+      <div class="loading">جاري تحميل الآيات...</div>
+    </div>
+
+  </section>
+
+</main>
+
+<script>
+
+const API = "https://api.alquran.cloud/v1";
+
+const search = document.getElementById("search");
+const surahList = document.getElementById("surahList");
+const riwaya = document.getElementById("riwaya");
+const sheikh = document.getElementById("sheikh");
+const quranBox = document.getElementById("quranBox");
+const quranTitle = document.getElementById("quranTitle");
+const ayahs = document.getElementById("ayahs");
+const audioPlayer = document.getElementById("audioPlayer");
+const notice = document.getElementById("notice");
+
+let allSurahs = [];
+
+const sheikhsByRiwaya = {
+
+  hafs: [
+    ["ar.alafasy","مشاري راشد العفاسي"],
+    ["ar.husary","محمود خليل الحصري"],
+    ["ar.abdulbasitmurattal","عبد الباسط عبد الصمد"],
+    ["ar.minshawi","محمد صديق المنشاوي"],
+    ["ar.mahermuaiqly","ماهر المعيقلي"],
+    ["ar.yasseraldossari","ياسر الدوسري"],
+    ["ar.abdurrahmaansudais","عبد الرحمن السديس"],
+    ["ar.saudalshuraim","سعود الشريم"],
+    ["ar.mahmoudalialbanna","محمود علي البنا"]
+  ],
+
+  warsh: [
+    ["ar.abdulbasitmurattal","عبد الباسط عبد الصمد"],
+    ["ar.husary","محمود خليل الحصري"],
+    ["ar.yassenaljazairi","ياسين الجزائري"]
+  ],
+
+  qaloon: [
+    ["ar.aliabdurrahmanalhuthaifyqaloon","علي عبد الرحمن الحذيفي"]
+  ],
+
+  duri: [
+    ["ar.abdurrasheedsufiaddoorianabiamr","عبد الرشيد صوفي"]
+  ],
+
+  susi: [
+    ["ar.abdurrasheedsufisoosi","عبد الرشيد صوفي"]
+  ],
+
+  shubah: [
+    ["ar.abdurrasheedsufishubahanasim","عبد الرشيد صوفي"]
+  ],
+
+  khalaf: [],
+  khallad: [],
+  ibn_dhakwan: [],
+  hisham: []
+};
+
+function updateSheikhs(){
+
+  const selected = riwaya.value;
+  const list = sheikhsByRiwaya[selected] || [];
+
+  sheikh.innerHTML =
+    '<option value="">اختر الشيخ</option>';
+
+  list.forEach(function(item){
+
+    const option = document.createElement("option");
+
+    option.value = item[0];
+    option.textContent = item[1];
+
+    sheikh.appendChild(option);
+
+  });
+
+  if(list.length === 0){
+
+    const option = document.createElement("option");
+    option.value = "";
+    option.textContent = "لا توجد تلاوة مربوطة بهذه الرواية حاليًا";
+    sheikh.appendChild(option);
+
+  }
+}
+
+riwaya.addEventListener("change", updateSheikhs);
+
+updateSheikhs();
+
+function loadSurahs(){
+
+  allSurahs = [
+    {number:1, name:"الفاتحة"},
+    {number:2, name:"البقرة"},
+    {number:3, name:"آل عمران"},
+    {number:4, name:"النساء"},
+    {number:5, name:"المائدة"},
+    {number:6, name:"الأنعام"},
+    {number:7, name:"الأعراف"},
+    {number:8, name:"الأنفال"},
+    {number:9, name:"التوبة"},
+    {number:10, name:"يونس"},
+    {number:11, name:"هود"},
+    {number:12, name:"يوسف"},
+    {number:13, name:"الرعد"},
+    {number:14, name:"إبراهيم"},
+    {number:15, name:"الحجر"},
+    {number:16, name:"النحل"},
+    {number:17, name:"الإسراء"},
+    {number:18, name:"الكهف"},
+    {number:19, name:"مريم"},
+    {number:20, name:"طه"},
+    {number:21, name:"الأنبياء"},
+    {number:22, name:"الحج"},
+    {number:23, name:"المؤمنون"},
+    {number:24, name:"النور"},
+    {number:25, name:"الفرقان"},
+    {number:26, name:"الشعراء"},
+    {number:27, name:"النمل"},
+    {number:28, name:"القصص"},
+    {number:29, name:"العنكبوت"},
+    {number:30, name:"الروم"},
+    {number:31, name:"لقمان"},
+    {number:32, name:"السجدة"},
+    {number:33, name:"الأحزاب"},
+    {number:34, name:"سبأ"},
+    {number:35, name:"فاطر"},
+    {number:36, name:"يس"},
+    {number:37, name:"الصافات"},
+    {number:38, name:"ص"},
+    {number:39, name:"الزمر"},
+    {number:40, name:"غافر"},
+    {number:41, name:"فصلت"},
+    {number:42, name:"الشورى"},
+    {number:43, name:"الزخرف"},
+    {number:44, name:"الدخان"},
+    {number:45, name:"الجاثية"},
+    {number:46, name:"الأحقاف"},
+    {number:47, name:"محمد"},
+    {number:48, name:"الفتح"},
+    {number:49, name:"الحجرات"},
+    {number:50, name:"ق"},
+    {number:51, name:"الذاريات"},
+    {number:52, name:"الطور"},
+    {number:53, name:"النجم"},
+    {number:54, name:"القمر"},
+    {number:55, name:"الرحمن"},
+    {number:56, name:"الواقعة"},
+    {number:57, name:"الحديد"},
+    {number:58, name:"المجادلة"},
+    {number:59, name:"الحشر"},
+    {number:60, name:"الممتحنة"},
+    {number:61, name:"الصف"},
+    {number:62, name:"الجمعة"},
+    {number:63, name:"المنافقون"},
+    {number:64, name:"التغابن"},
+    {number:65, name:"الطلاق"},
+    {number:66, name:"التحريم"},
+    {number:67, name:"الملك"},
+    {number:68, name:"القلم"},
+    {number:69, name:"الحاقة"},
+    {number:70, name:"المعارج"},
+    {number:71, name:"نوح"},
+    {number:72, name:"الجن"},
+    {number:73, name:"المزمل"},
+    {number:74, name:"المدثر"},
+    {number:75, name:"القيامة"},
+    {number:76, name:"الإنسان"},
+    {number:77, name:"المرسلات"},
+    {number:78, name:"النبأ"},
+    {number:79, name:"النازعات"},
+    {number:80, name:"عبس"},
+    {number:81, name:"التكوير"},
+    {number:82, name:"الانفطار"},
+    {number:83, name:"المطففين"},
+    {number:84, name:"الانشقاق"},
+    {number:85, name:"البروج"},
+    {number:86, name:"الطارق"},
+    {number:87, name:"الأعلى"},
+    {number:88, name:"الغاشية"},
+    {number:89, name:"الفجر"},
+    {number:90, name:"البلد"},
+    {number:91, name:"الشمس"},
+    {number:92, name:"الليل"},
+    {number:93, name:"الضحى"},
+    {number:94, name:"الشرح"},
+    {number:95, name:"التين"},
+    {number:96, name:"العلق"},
+    {number:97, name:"القدر"},
+    {number:98, name:"البينة"},
+    {number:99, name:"الزلزلة"},
+    {number:100, name:"العاديات"},
+    {number:101, name:"القارعة"},
+    {number:102, name:"التكاثر"},
+    {number:103, name:"العصر"},
+    {number:104, name:"الهمزة"},
+    {number:105, name:"الفيل"},
+    {number:106, name:"قريش"},
+    {number:107, name:"الماعون"},
+    {number:108, name:"الكوثر"},
+    {number:109, name:"الكافرون"},
+    {number:110, name:"النصر"},
+    {number:111, name:"المسد"},
+    {number:112, name:"الإخلاص"},
+    {number:113, name:"الفلق"},
+    {number:114, name:"الناس"}
+  ];
+
+  renderSurahs(allSurahs);
+}
+
+
+function normalizeArabic(text){
+  return String(text || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u064B-\u065F\u0670]/g, "")
+    .replace(/[أإآٱ]/g, "ا")
+    .replace(/ة/g, "ه")
+    .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/ـ/g, "")
+    .replace(/[^a-z0-9\u0600-\u06FF]/g, "");
+}
+
+function levenshtein(a,b){
+  const m=a.length, n=b.length;
+  const dp=Array.from({length:m+1},()=>Array(n+1).fill(0));
+
+  for(let i=0;i<=m;i++) dp[i][0]=i;
+  for(let j=0;j<=n;j++) dp[0][j]=j;
+
+  for(let i=1;i<=m;i++){
+    for(let j=1;j<=n;j++){
+      dp[i][j] = Math.min(
+        dp[i-1][j]+1,
+        dp[i][j-1]+1,
+        dp[i-1][j-1] + (a[i-1]===b[j-1] ? 0 : 1)
+      );
+    }
+  }
+
+  return dp[m][n];
+}
+
+function smartSurahSearch(value){
+  const q = normalizeArabic(value);
+
+  if(!q) return allSurahs;
+
+  return allSurahs
+    .map(surah => {
+
+      const name = normalizeArabic(surah.name);
+      const english = normalizeArabic(surah.englishName);
+      const translation = normalizeArabic(surah.englishNameTranslation);
+
+      let score = 999;
+
+      if(String(surah.number) === q) score = 0;
+      else if(name === q) score = 0;
+      else if(name.includes(q)) score = 1;
+      else if(q.includes(name)) score = 2;
+      else {
+        const distance = levenshtein(q,name);
+
+        if(distance <= 2) score = 3 + distance;
+        else if(q.length >= 4 && distance <= 3) score = 6;
+        else if(english.includes(q) || translation.includes(q)) score = 7;
+      }
+
+      return {surah,score};
+    })
+    .filter(x => x.score < 999)
+    .sort((a,b) => a.score-b.score)
+    .map(x => x.surah);
+}
+
+function renderSurahs(list){
+
+  if(!list.length){
+
+    surahList.innerHTML =
+      '<div class="loading">لا توجد نتائج.</div>';
+
+    return;
+  }
+
+  surahList.innerHTML = "";
+
+  list.forEach(function(surah){
+
+    const div =
+      document.createElement("div");
+
+    div.className = "surah";
+
+    div.innerHTML = `
+      <span class="surah-number">${surah.number}</span>
+      <span class="surah-name">${surah.name}</span>
+      <div class="surah-info">
+        ${surah.numberOfAyahs ? surah.numberOfAyahs + " آية" : "سورة"}
+        ${surah.revelationType ? " • " + (surah.revelationType === "Meccan" ? "مكية" : "مدنية") : ""}
+      </div>
+    `;
+
+    div.addEventListener("click", function(){
+
+      openSurah(surah.number);
+
+    });
+
+    surahList.appendChild(div);
+
+  });
+}
+
+search.addEventListener("input", function(){
+
+  const value = search.value.trim();
+
+  const filtered = smartSurahSearch(value);
+
+  renderSurahs(filtered);
+
+}););
+
+async function openSurah(number){
+
+  quranBox.style.display = "block";
+
+  surahList.style.display = "none";
+  search.style.display = "block";
+
+  quranTitle.textContent =
+    "جاري تحميل السورة...";
+
+  ayahs.innerHTML =
+    '<div class="loading">جاري تحميل القرآن...</div>';
+
+  notice.innerHTML = "";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  try{
+
+    const textResponse =
+      await fetch(
+        API + "/surah/" + number + "/quran-uthmani"
+      );
+
+    const textJson =
+      await textResponse.json();
+
+    const surah =
+      textJson.data;
+
+    quranTitle.textContent =
+      surah.name;
+
+    ayahs.innerHTML = "";
+
+    surah.ayahs.forEach(function(ayah){
+
+      const div =
+        document.createElement("div");
+
+      div.className = "ayah";
+
+      div.innerHTML =
+        `${ayah.text}
+         <span class="ayah-number">
+           ﴿${ayah.numberInSurah}﴾
+         </span>`;
+
+      ayahs.appendChild(div);
+
+    });
+
+    setAudio(number);
+
+  }catch(error){
+
+    ayahs.innerHTML =
+      '<div class="loading">حدث خطأ أثناء تحميل السورة.</div>';
+
+  }
+
+}
+
+function setAudio(number){
+
+  const selectedRiwaya =
+    riwaya.value;
+
+  const selectedSheikh =
+    sheikh.value;
+
+  notice.innerHTML = "";
+
+  if(!selectedSheikh){
+
+    audioPlayer.removeAttribute("src");
+    audioPlayer.load();
+
+    notice.innerHTML =
+      "اختار الشيخ أولًا لتشغيل التلاوة.";
+
+    return;
+  }
+
+  /*
+    الصوت الحالي يأتي من إصدار التلاوة المختار.
+    الروايات التي ليس لها ملف صوت مربوط لن تشغل صوتًا
+    حتى لا ننسب تلاوة لرواية غير صحيحة.
+  */
+
+  const audioSupportedRiwaya = {
+    "hafs": true,
+    "warsh": true,
+    "qaloon": true,
+    "duri": true,
+    "susi": true,
+    "shubah": true
+  };
+
+  if(!audioSupportedRiwaya[selectedRiwaya]){
+
+    audioPlayer.removeAttribute("src");
+    audioPlayer.load();
+
+    notice.innerHTML =
+      "الرواية المختارة موجودة في واجهة التطبيق، لكن لم نربط مصدر تلاوة موثوق لها بعد.";
+
+    return;
+  }
+
+  /*
+    Al Quran Cloud CDN
+    الصوت يكون حسب رقم السورة والقارئ.
+  */
+
+  const url =
+    "https://cdn.islamic.network/quran/audio-surah/128/"
+    + selectedSheikh
+    + "/"
+    + number
+    + ".mp3";
+
+  audioPlayer.src = url;
+  audioPlayer.load();
+
+}
+
+sheikh.addEventListener("change", function(){
+
+  const visible =
+    quranBox.style.display === "block";
+
+  if(visible){
+
+    const title =
+      quranTitle.textContent;
+
+    const found =
+      allSurahs.find(function(s){
+        return s.name === title;
+      });
+
+    if(found){
+      setAudio(found.number);
+    }
+
+  }
+
+});
+
+function closeQuran(){
+
+  audioPlayer.pause();
+  audioPlayer.removeAttribute("src");
+  audioPlayer.load();
+
+  quranBox.style.display = "none";
+  surahList.style.display = "grid";
+  search.style.display = "block";
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+}
+
+loadSurahs();
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>القرآن الكريم - امشي صح</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #050805;
+      color: white;
+    }
+
+    header {
+      background: #063b24;
+      padding: 18px;
+      text-align: center;
+      border-bottom: 1px solid #174f35;
+    }
+
+    header h1 {
+      font-size: 28px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #b7d8c5;
+      font-size: 14px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 15px;
+      color: #55b77b;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 25px auto;
+    }
+
+    .search {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #174f35;
+      background: #0b120e;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 20px;
+    }
+
+    .search:focus {
+      border-color: #55b77b;
+    }
+
+    .readers {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .readers h2 {
+      color: #55b77b;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #174f35;
+      background: #050805;
+      color: white;
+      font-size: 15px;
+    }
+
+    .surah-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .surah {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 15px;
+      padding: 18px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .surah:hover {
+      border-color: #55b77b;
+      transform: translateY(-2px);
+    }
+
+    .surah-number {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #063b24;
+      color: #55b77b;
+      margin-left: 8px;
+    }
+
+    .surah-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .surah-info {
+      color: #888;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .surah-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <h1>📖 القرآن الكريم</h1>
+
+    <p>اقرأ واستمع إلى كتاب الله</p>
+
+    <a class="back" href="../index.html">
+      ← العودة للرئيسية
+    </a>
+
+  </header>
+
+  <main class="container">
+
+    <input
+      type="text"
+      class="search"
+      id="search"
+      placeholder="🔎 ابحث عن سورة..."
+    >
+
+    <section class="readers">
+
+      <h2>📖 اختر الرواية</h2>
+
+      <select id="riwaya">
+        <option value="hafs">حفص عن عاصم</option>
+        <option value="warsh">ورش عن نافع</option>
+        <option value="qaloon">قالون عن نافع</option>
+        <option value="duri">الدوري عن أبي عمرو</option>
+        <option value="susi">السوسي عن أبي عمرو</option>
+        <option value="shubah">شعبة عن عاصم</option>
+        <option value="khalaf">خلف عن حمزة</option>
+        <option value="khallad">خلاد عن حمزة</option>
+        <option value="ibn_dhakwan">ابن ذكوان عن ابن عامر</option>
+        <option value="hisham">هشام عن ابن عامر</option>
+      </select>
+
+      <h2 style="margin-top: 18px;">🎙️ اختر الشيخ</h2>
+
+      <select id="sheikh">
+        <option value="">اختر الشيخ</option>
+      </select>
+
+    </section>
+
+    <section class="surah-list" id="surahList">
+
+      <div class="surah">
+        <span class="surah-number">1</span>
+        <span class="surah-name">الفاتحة</span>
+        <div class="surah-info">7 آيات</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">2</span>
+        <span class="surah-name">البقرة</span>
+        <div class="surah-info">286 آية</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">3</span>
+        <span class="surah-name">آل عمران</span>
+        <div class="surah-info">200 آية</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">4</span>
+        <span class="surah-name">النساء</span>
+        <div class="surah-info">176 آية</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">5</span>
+        <span class="surah-name">المائدة</span>
+        <div class="surah-info">120 آية</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">6</span>
+        <span class="surah-name">الأنعام</span>
+        <div class="surah-info">165 آية</div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    const riwaya = document.getElementById("riwaya");
+    const sheikh = document.getElementById("sheikh");
+
+    const sheikhsByRiwaya = {
+      hafs: [
+        ["abdulbasit", "عبد الباسط عبد الصمد"],
+        ["banna", "محمود علي البنا"],
+        ["husary", "محمود خليل الحصري"],
+        ["minshawi", "محمد صديق المنشاوي"],
+        ["afasy", "مشاري راشد العفاسي"],
+        ["maher", "ماهر المعيقلي"],
+        ["yasser", "ياسر الدوسري"],
+        ["sudais", "عبد الرحمن السديس"],
+        ["shuraim", "سعود الشريم"],
+        ["ghamdi", "سعد الغامدي"],
+        ["shatri", "أبو بكر الشاطري"],
+        ["ajmi", "أحمد العجمي"],
+        ["basfar", "عبد الله بصفر"],
+        ["qatami", "ناصر القطامي"]
+      ],
+
+      warsh: [
+        ["abdulbasit_warsh", "عبد الباسط عبد الصمد"],
+        ["husary_warsh", "محمود خليل الحصري"],
+        ["yassin_warsh", "ياسين الجزائري"],
+        ["omar_kazabri_warsh", "عمر القزابري"],
+        ["laayoun_warsh", "العيون الكوشي"],
+        ["ibrahim_dossary_warsh", "إبراهيم الدوسري"]
+      ],
+
+      qaloon: [
+        ["husary_qaloon", "محمود خليل الحصري"],
+        ["abdelbasset_qaloon", "عبد الباسط عبد الصمد"]
+      ],
+
+      duri: [
+        ["husary_duri", "محمود خليل الحصري"]
+      ],
+
+      susi: [
+        ["susi_reader", "قارئ برواية السوسي عن أبي عمرو"]
+      ],
+
+      shubah: [
+        ["shubah_reader", "قارئ برواية شعبة عن عاصم"]
+      ],
+
+      khalaf: [
+        ["khalaf_reader", "قارئ برواية خلف عن حمزة"]
+      ],
+
+      khallad: [
+        ["khallad_reader", "قارئ برواية خلاد عن حمزة"]
+      ],
+
+      ibn_dhakwan: [
+        ["ibn_dhakwan_reader", "قارئ برواية ابن ذكوان عن ابن عامر"]
+      ],
+
+      hisham: [
+        ["hisham_reader", "قارئ برواية هشام عن ابن عامر"]
+      ]
+    };
+
+    function updateSheikhs() {
+      const selected = riwaya.value;
+      const list = sheikhsByRiwaya[selected] || [];
+
+      sheikh.innerHTML = '<option value="">اختر الشيخ</option>';
+
+      list.forEach(function(item) {
+        const option = document.createElement("option");
+        option.value = item[0];
+        option.textContent = item[1];
+        sheikh.appendChild(option);
+      });
+    }
+
+    riwaya.addEventListener("change", updateSheikhs);
+
+    updateSheikhs();
+
+    const search = document.getElementById("search");
+    const surahs = document.querySelectorAll(".surah");
+
+    search.addEventListener("input", function () {
+
+      const value = search.value.trim();
+
+      surahs.forEach(function (surah) {
+
+        const name = surah.querySelector(".surah-name").textContent;
+
+        if (name.includes(value)) {
+          surah.style.display = "";
+        } else {
+          surah.style.display = "none";
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>

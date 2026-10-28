@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>سورة الفاتحة - امشي صح</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      background: #050805;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #063b24;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #174f35;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      color: #55b77b;
+    }
+
+    header p {
+      color: #b7d8c5;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 850px;
+      margin: 25px auto;
+    }
+
+    .info {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .info div {
+      margin: 8px 0;
+      color: #ccc;
+    }
+
+    .ayahs {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 18px;
+      padding: 25px;
+      line-height: 2.5;
+      font-size: 25px;
+      text-align: center;
+    }
+
+    .ayah {
+      display: block;
+      margin-bottom: 18px;
+    }
+
+    .number {
+      color: #55b77b;
+      font-size: 18px;
+      margin: 0 6px;
+    }
+
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      min-width: 130px;
+      padding: 14px;
+      border: 1px solid #174f35;
+      border-radius: 12px;
+      background: #063b24;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #0a5634;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 18px;
+      color: #55b77b;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>سورة الفاتحة</h1>
+  <p>امشي صح</p>
+</header>
+
+<main class="container">
+
+  <section class="info">
+    <div>📖 الرواية: <strong>حفص عن عاصم</strong></div>
+    <div>🎙️ الشيخ: <strong id="selectedSheikh">محمود خليل الحصري</strong></div>
+  </section>
+
+  <section class="ayahs">
+
+    <span class="ayah">
+      بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ
+      <span class="number">﴿١﴾</span>
+    </span>
+
+    <span class="ayah">
+      الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ
+      <span class="number">﴿٢﴾</span>
+    </span>
+
+    <span class="ayah">
+      الرَّحْمَٰنِ الرَّحِيمِ
+      <span class="number">﴿٣﴾</span>
+    </span>
+
+    <span class="ayah">
+      مَالِكِ يَوْمِ الدِّينِ
+      <span class="number">﴿٤﴾</span>
+    </span>
+
+    <span class="ayah">
+      إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ
+      <span class="number">﴿٥﴾</span>
+    </span>
+
+    <span class="ayah">
+      اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ
+      <span class="number">﴿٦﴾</span>
+    </span>
+
+    <span class="ayah">
+      صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ
+      غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّينَ
+      <span class="number">﴿٧﴾</span>
+    </span>
+
+  </section>
+
+  <div class="controls">
+    <button onclick="playAudio()">▶️ تشغيل</button>
+    <button onclick="stopAudio()">⏹️ إيقاف</button>
+  </div>
+
+  <a class="back" href="quran.html">← العودة للقرآن</a>
+
+</main>
+
+<audio id="audio"></audio>
+
+<script>
+  const audio = document.getElementById("audio");
+
+  function playAudio() {
+    alert("هنوصل التلاوة الحقيقية بعد تجهيز مصدر الصوت الموثوق.");
+  }
+
+  function stopAudio() {
+    audio.pause();
+    audio.currentTime = 0;
+  }
+</script>
+
+</body>
+</html>

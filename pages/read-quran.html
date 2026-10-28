@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قراءة القرآن الكريم - امشي صح</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Tahoma,Arial,sans-serif;
+  background:#f5f1e8;
+  color:#18251d;
+}
+
+header{
+  background:#123d2b;
+  color:white;
+  padding:22px 15px;
+  text-align:center;
+}
+
+header h1{
+  margin:0 0 8px;
+  font-size:28px;
+}
+
+header p{
+  margin:0;
+  opacity:.9;
+}
+
+.container{
+  max-width:900px;
+  margin:25px auto;
+  padding:0 15px;
+}
+
+.controls{
+  background:white;
+  padding:18px;
+  border-radius:15px;
+  box-shadow:0 3px 12px #0001;
+  margin-bottom:20px;
+}
+
+.controls label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:bold;
+}
+
+select{
+  width:100%;
+  padding:12px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  font-size:16px;
+  background:white;
+}
+
+.surah-title{
+  background:#123d2b;
+  color:white;
+  border-radius:15px;
+  padding:20px;
+  text-align:center;
+  margin-bottom:15px;
+}
+
+.surah-title h2{
+  margin:0 0 8px;
+}
+
+.surah-title p{
+  margin:0;
+}
+
+.bismillah{
+  text-align:center;
+  font-size:25px;
+  margin:25px 0;
+  font-weight:bold;
+}
+
+.ayah{
+  background:white;
+  padding:18px;
+  margin-bottom:10px;
+  border-radius:12px;
+  line-height:2.4;
+  font-size:23px;
+  box-shadow:0 2px 8px #0000000d;
+}
+
+.ayah-number{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  background:#123d2b;
+  color:white;
+  font-size:14px;
+  margin-left:8px;
+  vertical-align:middle;
+}
+
+.navigation{
+  display:flex;
+  gap:10px;
+  margin:20px 0 30px;
+}
+
+.navigation button{
+  flex:1;
+  padding:13px;
+  border:0;
+  border-radius:10px;
+  background:#123d2b;
+  color:white;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.navigation button:disabled{
+  opacity:.4;
+  cursor:not-allowed;
+}
+
+@media(max-width:600px){
+  header h1{
+    font-size:23px;
+  }
+
+  .ayah{
+    font-size:20px;
+    line-height:2.2;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>📖 قراءة القرآن الكريم</h1>
+  <p>القرآن الكريم — امشي صح</p>
+</header>
+
+<div class="container">
+
+  <div class="controls">
+    <label for="surahSelect">اختر السورة</label>
+    <select id="surahSelect"></select>
+  </div>
+
+  <div id="quranContent"></div>
+
+  <div class="navigation">
+    <button id="prevSurah">السورة السابقة</button>
+    <button id="nextSurah">السورة التالية</button>
+  </div>
+
+</div>
+
+<script src="../data/quran/quran-data.js"></script>
+
+<script>
+const surahs = window.QURAN_DATA.surahs;
+const surahSelect = document.getElementById("surahSelect");
+const quranContent = document.getElementById("quranContent");
+
+const surahNames = [
+"الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف",
+"الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر",
+"النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون",
+"النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم",
+"لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر",
+"غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد",
+"الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن",
+"الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة",
+"المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة",
+"المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان",
+"المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين",
+"الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد",
+"الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة",
+"الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل",
+"قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص",
+"الفلق","الناس"
+];
+
+function getSurahNumber(){
+  const params = new URLSearchParams(window.location.search);
+  return Number(params.get("surah")) || 1;
+}
+
+function fillSurahs(){
+  surahSelect.innerHTML = "";
+
+  for(let i = 1; i <= 114; i++){
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = i + " - " + surahNames[i - 1];
+    surahSelect.appendChild(option);
+  }
+}
+
+function showSurah(number){
+  if(number < 1 || number > 114) return;
+
+  const ayahs = surahs[String(number)] || [];
+  const name = surahNames[number - 1];
+
+  surahSelect.value = number;
+
+  let html = `
+    <div class="surah-title">
+      <h2>سورة ${name}</h2>
+      <p>${ayahs.length} آية</p>
+    </div>
+  `;
+
+  if(number !== 9){
+    html += `<div class="bismillah">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</div>`;
+  }
+
+  ayahs.forEach(function(ayah, index){
+    const text = typeof ayah === "string"
+      ? ayah
+      : (ayah.text || ayah.aya || ayah.ayah || "");
+
+    html += `
+      <div class="ayah">
+        <span class="ayah-number">${index + 1}</span>
+        ${text}
+      </div>
+    `;
+  });
+
+  quranContent.innerHTML = html;
+
+  window.scrollTo({
+    top:0,
+    behavior:"smooth"
+  });
+
+  document.getElementById("prevSurah").disabled = number === 1;
+  document.getElementById("nextSurah").disabled = number === 114;
+}
+
+surahSelect.addEventListener("change", function(){
+  const number = Number(this.value);
+  window.history.pushState({}, "", "read-quran.html?surah=" + number);
+  showSurah(number);
+});
+
+document.getElementById("prevSurah").addEventListener("click", function(){
+  const number = getSurahNumber() - 1;
+  if(number >= 1){
+    window.location.href = "read-quran.html?surah=" + number;
+  }
+});
+
+document.getElementById("nextSurah").addEventListener("click", function(){
+  const number = getSurahNumber() + 1;
+  if(number <= 114){
+    window.location.href = "read-quran.html?surah=" + number;
+  }
+});
+
+fillSurahs();
+showSurah(getSurahNumber());
+</script>
+
+</body>
+</html>

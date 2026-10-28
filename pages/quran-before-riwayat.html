@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>القرآن الكريم - امشي صح</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #050805;
+      color: white;
+    }
+
+    header {
+      background: #063b24;
+      padding: 18px;
+      text-align: center;
+      border-bottom: 1px solid #174f35;
+    }
+
+    header h1 {
+      font-size: 28px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #b7d8c5;
+      font-size: 14px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 15px;
+      color: #55b77b;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 25px auto;
+    }
+
+    .search {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #174f35;
+      background: #0b120e;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 20px;
+    }
+
+    .search:focus {
+      border-color: #55b77b;
+    }
+
+    .readers {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .readers h2 {
+      color: #55b77b;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #174f35;
+      background: #050805;
+      color: white;
+      font-size: 15px;
+    }
+
+    .surah-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .surah {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 15px;
+      padding: 18px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .surah:hover {
+      border-color: #55b77b;
+      transform: translateY(-2px);
+    }
+
+    .surah-number {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #063b24;
+      color: #55b77b;
+      margin-left: 8px;
+    }
+
+    .surah-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .surah-info {
+      color: #888;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .surah-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+
+    <h1>📖 القرآن الكريم</h1>
+
+    <p>اقرأ واستمع إلى كتاب الله</p>
+
+    <a class="back" href="../index.html">
+      ← العودة للرئيسية
+    </a>
+
+  </header>
+
+  <main class="container">
+
+    <input
+      type="text"
+      class="search"
+      id="search"
+      placeholder="🔎 ابحث عن سورة..."
+    >
+
+    <section class="readers">
+
+      <h2>📖 اختر الرواية</h2>
+
+      <select id="riwaya">
+        <option value="hafs">حفص عن عاصم</option>
+        <option value="warsh">ورش عن نافع</option>
+        <option value="qaloon">قالون عن نافع</option>
+      </select>
+
+      <h2 style="margin-top: 18px;">🎙️ اختر الشيخ</h2>
+
+      <select id="sheikh">
+
+        <option value="">اختر الشيخ</option>
+
+        <option value="abdulbasit">
+          عبد الباسط عبد الصمد
+        </option>
+
+        <option value="husary">
+          محمود خليل الحصري
+        </option>
+
+        <option value="minshawi">
+          محمد صديق المنشاوي
+        </option>
+
+        <option value="afasy">
+          مشاري راشد العفاسي
+        </option>
+
+      </select>
+
+    </section>
+
+    <section class="surah-list" id="surahList">
+
+      <div class="surah">
+        <span class="surah-number">1</span>
+        <span class="surah-name">الفاتحة</span>
+        <div class="surah-info">7 آيات</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">2</span>
+        <span class="surah-name">البقرة</span>
+        <div class="surah-info">286 آية</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">3</span>
+        <span class="surah-name">آل عمران</span>
+        <div class="surah-info">200 آية</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">4</span>
+        <span class="surah-name">النساء</span>
+        <div class="surah-info">176 آية</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">5</span>
+        <span class="surah-name">المائدة</span>
+        <div class="surah-info">120 آية</div>
+      </div>
+
+      <div class="surah">
+        <span class="surah-number">6</span>
+        <span class="surah-name">الأنعام</span>
+        <div class="surah-info">165 آية</div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+    const search = document.getElementById("search");
+    const surahs = document.querySelectorAll(".surah");
+
+    search.addEventListener("input", function () {
+
+      const value = search.value.trim();
+
+      surahs.forEach(function (surah) {
+
+        const name = surah.querySelector(".surah-name").textContent;
+
+        if (name.includes(value)) {
+          surah.style.display = "";
+        } else {
+          surah.style.display = "none";
+        }
+
+      });
+
+    });
+
+  </script>
+
+</body>
+
+</html>

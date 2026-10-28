@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>قراءة القرآن - امشي صح</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: #050805;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background: #063b24;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #174f35;
+    }
+
+    header h1 {
+      margin: 0 0 8px;
+      color: #55b77b;
+    }
+
+    header p {
+      margin: 0;
+      color: #b7d8c5;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 25px auto;
+    }
+
+    .info {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    .info div {
+      margin: 8px 0;
+      color: #ccc;
+    }
+
+    .ayahs {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 18px;
+      padding: 25px;
+      line-height: 2.6;
+      font-size: 25px;
+      text-align: center;
+    }
+
+    .ayah {
+      display: block;
+      margin-bottom: 18px;
+    }
+
+    .number {
+      color: #55b77b;
+      font-size: 18px;
+      margin: 0 6px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 18px;
+      color: #55b77b;
+      text-decoration: none;
+    }
+
+    .error {
+      color: #ff7777;
+      text-align: center;
+      padding: 30px;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1 id="surahTitle">جاري التحميل...</h1>
+  <p>امشي صح</p>
+</header>
+
+<main class="container">
+
+  <section class="info">
+    <div>📖 الرواية: <strong>حفص عن عاصم</strong></div>
+    <div id="ayahCount">جاري تحميل الآيات...</div>
+  </section>
+
+  <section class="ayahs" id="ayahs"></section>
+
+  <a class="back" href="quran.html">← العودة إلى القرآن</a>
+
+</main>
+
+<script src="../data/quran/quran-data.js"></script>
+
+<script>
+  const surahNames = [
+    "الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال",
+    "التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف",
+    "مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل",
+    "القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات",
+    "ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد",
+    "الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد",
+    "المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق",
+    "التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة",
+    "الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين",
+    "الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل",
+    "الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة",
+    "التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر",
+    "المسد","الإخلاص","الفلق","الناس"
+  ];
+
+  const params = new URLSearchParams(location.search);
+  const surahNumber = Number(params.get("surah"));
+
+  const title = document.getElementById("surahTitle");
+  const count = document.getElementById("ayahCount");
+  const ayahsBox = document.getElementById("ayahs");
+
+  if (!Number.isInteger(surahNumber) || surahNumber < 1 || surahNumber > 114) {
+    title.textContent = "سورة غير صحيحة";
+    ayahsBox.innerHTML = '<div class="error">لم يتم تحديد سورة صحيحة.</div>';
+  } else {
+    const name = surahNames[surahNumber - 1];
+    const ayahs = window.QURAN_DATA?.surahs?.[surahNumber] || [];
+
+    title.textContent = "سورة " + name;
+    count.textContent = "عدد الآيات: " + ayahs.length;
+
+    if (!ayahs.length) {
+      ayahsBox.innerHTML =
+        '<div class="error">تعذر تحميل آيات هذه السورة.</div>';
+    } else {
+      ayahsBox.innerHTML = ayahs.map(item => `
+        <span class="ayah">
+          ${item.text}
+          <span class="number">﴿${item.ayah}﴾</span>
+        </span>
+      `).join("");
+    }
+  }
+</script>
+
+</body>
+</html>

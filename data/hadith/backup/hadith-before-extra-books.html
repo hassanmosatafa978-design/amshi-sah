@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأحاديث النبوية - امشي صح</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07100b;color:#f1f5f2;font-family:Arial,sans-serif}
+header{background:#0b120e;border-bottom:1px solid #174f35;padding:24px 16px;text-align:center}
+h1{color:#55b77b;margin:0 0 10px}
+header p{color:#bbb;margin:0}
+.back{display:inline-block;margin-top:16px;color:#55b77b;text-decoration:none}
+main{max-width:850px;margin:25px auto;padding:0 15px}
+.search{width:100%;padding:14px;border-radius:12px;border:1px solid #174f35;background:#0b120e;color:white;font-size:16px;margin-bottom:18px}
+.categories{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+button{background:#0e1812;color:#55b77b;border:1px solid #174f35;border-radius:10px;padding:11px 15px;cursor:pointer}
+button.active{background:#174f35;color:white}
+.card{background:#0b120e;border:1px solid #174f35;border-radius:16px;padding:20px;margin-bottom:15px;line-height:1.9}
+.card h2{color:#55b77b;font-size:19px}
+.source{color:#bbb;font-size:14px;border-top:1px solid #174f35;padding-top:12px;margin-top:15px}
+#status{color:#bbb;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>🕌 الأحاديث النبوية</h1>
+<p>تعلّم من هدي النبي ﷺ في امشي صح</p>
+<a class="back" href="../index.html">← العودة للرئيسية</a>
+</header>
+<main>
+<input id="search" class="search" type="search" placeholder="ابحث في نص الحديث أو المصدر..." aria-label="البحث في الأحاديث">
+<label for="bookSelect" style="display:block;margin-bottom:8px;color:#55b77b">اختر كتاب الحديث</label>
+<select id="bookSelect" style="width:100%;padding:14px;border-radius:12px;border:1px solid #174f35;background:#0b120e;color:white;font-size:16px;margin-bottom:18px">
+<option value="all">كل كتب الحديث</option>
+<option value="bukhari">صحيح البخاري</option>
+<option value="muslim">صحيح مسلم</option>
+<option value="abudawud">سنن أبي داود</option>
+<option value="tirmidhi">جامع الترمذي</option>
+<option value="nasai">سنن النسائي</option>
+<option value="ibnmajah">سنن ابن ماجه</option>
+<option value="ahmad">مسند أحمد</option>
+<option value="malik">موطأ مالك</option>
+</select>
+<div class="categories">
+<button class="active" data-category="all">كل الأحاديث</button>
+<button data-category="faith">الإيمان</button>
+<button data-category="manners">الأخلاق والآداب</button>
+<button data-category="worship">العبادات</button>
+</div>
+<div id="status">جاري تجهيز الأحاديث...</div>
+<section id="hadithList"></section>
+</main>
+<script>
+const search = document.getElementById('search');
+const bookSelect = document.getElementById('bookSelect');
+const list = document.getElementById('hadithList');
+const status = document.getElementById('status');
+
+let category = 'all';
+let selectedBook = 'all';
+let hadiths = [];
+let requestId = 0;
+
+const bookTitles = {
+  bukhari: 'صحيح البخاري',
+  muslim: 'صحيح مسلم',
+  abudawud: 'سنن أبي داود',
+  tirmidhi: 'جامع الترمذي',
+  nasai: 'سنن النسائي',
+  ibnmajah: 'سنن ابن ماجه',
+  ahmad: 'مسند أحمد',
+  malik: 'موطأ مالك'
+};
+
+async function loadBook() {
+  const thisRequest = ++requestId;
+  hadiths = [];
+  list.replaceChildren();
+
+  if (selectedBook === 'all') {
+    status.textContent = 'اختر كتابًا لعرض أحاديثه.';
+    return;
+  }
+
+  status.textContent = 'جاري تحميل ' + bookTitles[selectedBook] + '...';
+
+  try {
+    const response = await fetch('../data/hadith/ready/' + selectedBook + '.json');
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+
+    const data = await response.json();
+    if (thisRequest !== requestId) return;
+
+    if (!Array.isArray(data)) throw new Error('تنسيق البيانات غير صحيح');
+
+    hadiths = data;
+    category = 'all';
+    document.querySelectorAll('[data-category]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.category === 'all');
+    });
+
+    render();
+    status.textContent = 'عدد الأحاديث في ' + bookTitles[selectedBook] + ': ' + hadiths.length;
+  } catch (error) {
+    if (thisRequest !== requestId) return;
+    status.textContent = 'تعذر تحميل الكتاب. تأكد من تشغيل الموقع عبر خادم محلي وأن ملف البيانات موجود.';
+    console.error(error);
+  }
+}
+
+function render() {
+  const q = search.value.trim().toLocaleLowerCase();
+  const filtered = hadiths.filter(h => {
+    const searchable = [
+      h.text, h.source, h.number, h.book_name, h.chapter, h.title
+    ].join(' ').toLocaleLowerCase();
+
+    return (category === 'all' || h.category === category) &&
+           searchable.includes(q);
+  });
+
+  list.replaceChildren();
+
+  const fragment = document.createDocumentFragment();
+
+  filtered.forEach(h => {
+    const article = document.createElement('article');
+    article.className = 'card';
+
+    const title = document.createElement('h2');
+    title.textContent = h.title || ('حديث رقم ' + (h.number || ''));
+
+    const text = document.createElement('p');
+    text.textContent = h.text || '';
+
+    const book = document.createElement('div');
+    book.className = 'source';
+    book.textContent = h.book_name || bookTitles[h.book] || '';
+
+    const chapter = document.createElement('div');
+    chapter.className = 'source';
+    chapter.textContent = h.chapter ? 'الباب: ' + h.chapter : '';
+
+    const source = document.createElement('div');
+    source.className = 'source';
+    source.textContent = h.source || '';
+
+    article.append(title, text, book, chapter, source);
+    fragment.appendChild(article);
+  });
+
+  list.appendChild(fragment);
+
+  if (selectedBook !== 'all') {
+    status.textContent = 'النتائج: ' + filtered.length + ' من ' + hadiths.length;
+  } else {
+    status.textContent = 'اختر كتابًا لعرض أحاديثه.';
+  }
+
+  if (selectedBook !== 'all' && filtered.length === 0) {
+    status.textContent = 'لا توجد نتائج مطابقة.';
+  }
+}
+
+search.addEventListener('input', render);
+
+bookSelect.addEventListener('change', () => {
+  selectedBook = bookSelect.value;
+  loadBook();
+});
+
+document.querySelectorAll('[data-category]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    category = btn.dataset.category;
+    document.querySelectorAll('[data-category]').forEach(b => {
+      b.classList.toggle('active', b === btn);
+    });
+    render();
+  });
+});
+
+loadBook();
+</script>
+</body>
+</html>

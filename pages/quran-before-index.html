@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>القرآن الكريم - امشي صح</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #050805;
+      color: white;
+    }
+
+    header {
+      background: #063b24;
+      padding: 18px;
+      text-align: center;
+      border-bottom: 1px solid #174f35;
+    }
+
+    header h1 {
+      font-size: 28px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #b7d8c5;
+      font-size: 14px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 15px;
+      color: #55b77b;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 25px auto;
+    }
+
+    .search {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #174f35;
+      background: #0b120e;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 20px;
+    }
+
+    .search:focus {
+      border-color: #55b77b;
+    }
+
+    .readers {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .readers h2 {
+      color: #55b77b;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #174f35;
+      background: #050805;
+      color: white;
+      font-size: 15px;
+    }
+
+    .surah-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .surah {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 15px;
+      padding: 18px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .surah:hover {
+      border-color: #55b77b;
+      transform: translateY(-2px);
+    }
+
+    .surah-number {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #063b24;
+      color: #55b77b;
+      margin-left: 8px;
+    }
+
+    .surah-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .surah-info {
+      color: #888;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .surah-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <script src="../data/quran/quran-data.js"></script>
+</head>
+
+<body>
+
+  <header>
+
+    <h1>📖 القرآن الكريم</h1>
+
+    <p>اقرأ واستمع إلى كتاب الله</p>
+
+    <a class="back" href="../index.html">
+      ← العودة للرئيسية
+    </a>
+
+  </header>
+
+  <main class="container">
+
+    <input
+      type="text"
+      class="search"
+      id="search"
+      placeholder="🔎 ابحث عن سورة..."
+    >
+<div id="smartSearchResults" style="
+  margin:15px 0;
+  display:none;
+"></div>
+
+
+    <section class="readers">
+
+      <h2>📖 اختر الرواية</h2>
+
+      <select id="riwaya">
+        <option value="hafs">حفص عن عاصم</option>
+        <option value="warsh">ورش عن نافع</option>
+        <option value="qaloon">قالون عن نافع</option>
+      </select>
+
+      <h2 style="margin-top: 18px;">🎙️ اختر الشيخ</h2>
+
+      <select id="sheikh">
+
+        <option value="">اختر الشيخ</option>
+
+        <option value="abdulbasit">
+          عبد الباسط عبد الصمد
+        </option>
+
+        <option value="husary">
+          محمود خليل الحصري
+        </option>
+
+        <option value="minshawi">
+          محمد صديق المنشاوي
+        </option>
+
+        <option value="afasy">
+          مشاري راشد العفاسي
+        </option>
+
+      </select>
+
+    </section>
+
+    <section class="surah-list" id="surahList">
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="1">
+        <span class="surah-number">1</span>
+        <span class="surah-name">الفاتحة</span>
+        <div class="surah-info">سورة رقم 1</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="2">
+        <span class="surah-number">2</span>
+        <span class="surah-name">البقرة</span>
+        <div class="surah-info">سورة رقم 2</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="3">
+        <span class="surah-number">3</span>
+        <span class="surah-name">آل عمران</span>
+        <div class="surah-info">سورة رقم 3</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="4">
+        <span class="surah-number">4</span>
+        <span class="surah-name">النساء</span>
+        <div class="surah-info">سورة رقم 4</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="5">
+        <span class="surah-number">5</span>
+        <span class="surah-name">المائدة</span>
+        <div class="surah-info">سورة رقم 5</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="6">
+        <span class="surah-number">6</span>
+        <span class="surah-name">الأنعام</span>
+        <div class="surah-info">سورة رقم 6</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="7">
+        <span class="surah-number">7</span>
+        <span class="surah-name">الأعراف</span>
+        <div class="surah-info">سورة رقم 7</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="8">
+        <span class="surah-number">8</span>
+        <span class="surah-name">الأنفال</span>
+        <div class="surah-info">سورة رقم 8</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="9">
+        <span class="surah-number">9</span>
+        <span class="surah-name">التوبة</span>
+        <div class="surah-info">سورة رقم 9</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="10">
+        <span class="surah-number">10</span>
+        <span class="surah-name">يونس</span>
+        <div class="surah-info">سورة رقم 10</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="11">
+        <span class="surah-number">11</span>
+        <span class="surah-name">هود</span>
+        <div class="surah-info">سورة رقم 11</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="12">
+        <span class="surah-number">12</span>
+        <span class="surah-name">يوسف</span>
+        <div class="surah-info">سورة رقم 12</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="13">
+        <span class="surah-number">13</span>
+        <span class="surah-name">الرعد</span>
+        <div class="surah-info">سورة رقم 13</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="14">
+        <span class="surah-number">14</span>
+        <span class="surah-name">إبراهيم</span>
+        <div class="surah-info">سورة رقم 14</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="15">
+        <span class="surah-number">15</span>
+        <span class="surah-name">الحجر</span>
+        <div class="surah-info">سورة رقم 15</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="16">
+        <span class="surah-number">16</span>
+        <span class="surah-name">النحل</span>
+        <div class="surah-info">سورة رقم 16</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="17">
+        <span class="surah-number">17</span>
+        <span class="surah-name">الإسراء</span>
+        <div class="surah-info">سورة رقم 17</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="18">
+        <span class="surah-number">18</span>
+        <span class="surah-name">الكهف</span>
+        <div class="surah-info">سورة رقم 18</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="19">
+        <span class="surah-number">19</span>
+        <span class="surah-name">مريم</span>
+        <div class="surah-info">سورة رقم 19</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="20">
+        <span class="surah-number">20</span>
+        <span class="surah-name">طه</span>
+        <div class="surah-info">سورة رقم 20</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="21">
+        <span class="surah-number">21</span>
+        <span class="surah-name">الأنبياء</span>
+        <div class="surah-info">سورة رقم 21</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="22">
+        <span class="surah-number">22</span>
+        <span class="surah-name">الحج</span>
+        <div class="surah-info">سورة رقم 22</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="23">
+        <span class="surah-number">23</span>
+        <span class="surah-name">المؤمنون</span>
+        <div class="surah-info">سورة رقم 23</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="24">
+        <span class="surah-number">24</span>
+        <span class="surah-name">النور</span>
+        <div class="surah-info">سورة رقم 24</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="25">
+        <span class="surah-number">25</span>
+        <span class="surah-name">الفرقان</span>
+        <div class="surah-info">سورة رقم 25</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="26">
+        <span class="surah-number">26</span>
+        <span class="surah-name">الشعراء</span>
+        <div class="surah-info">سورة رقم 26</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="27">
+        <span class="surah-number">27</span>
+        <span class="surah-name">النمل</span>
+        <div class="surah-info">سورة رقم 27</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="28">
+        <span class="surah-number">28</span>
+        <span class="surah-name">القصص</span>
+        <div class="surah-info">سورة رقم 28</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="29">
+        <span class="surah-number">29</span>
+        <span class="surah-name">العنكبوت</span>
+        <div class="surah-info">سورة رقم 29</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="30">
+        <span class="surah-number">30</span>
+        <span class="surah-name">الروم</span>
+        <div class="surah-info">سورة رقم 30</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="31">
+        <span class="surah-number">31</span>
+        <span class="surah-name">لقمان</span>
+        <div class="surah-info">سورة رقم 31</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="32">
+        <span class="surah-number">32</span>
+        <span class="surah-name">السجدة</span>
+        <div class="surah-info">سورة رقم 32</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="33">
+        <span class="surah-number">33</span>
+        <span class="surah-name">الأحزاب</span>
+        <div class="surah-info">سورة رقم 33</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="34">
+        <span class="surah-number">34</span>
+        <span class="surah-name">سبأ</span>
+        <div class="surah-info">سورة رقم 34</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="35">
+        <span class="surah-number">35</span>
+        <span class="surah-name">فاطر</span>
+        <div class="surah-info">سورة رقم 35</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="36">
+        <span class="surah-number">36</span>
+        <span class="surah-name">يس</span>
+        <div class="surah-info">سورة رقم 36</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="37">
+        <span class="surah-number">37</span>
+        <span class="surah-name">الصافات</span>
+        <div class="surah-info">سورة رقم 37</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="38">
+        <span class="surah-number">38</span>
+        <span class="surah-name">ص</span>
+        <div class="surah-info">سورة رقم 38</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="39">
+        <span class="surah-number">39</span>
+        <span class="surah-name">الزمر</span>
+        <div class="surah-info">سورة رقم 39</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="40">
+        <span class="surah-number">40</span>
+        <span class="surah-name">غافر</span>
+        <div class="surah-info">سورة رقم 40</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="41">
+        <span class="surah-number">41</span>
+        <span class="surah-name">فصلت</span>
+        <div class="surah-info">سورة رقم 41</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="42">
+        <span class="surah-number">42</span>
+        <span class="surah-name">الشورى</span>
+        <div class="surah-info">سورة رقم 42</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="43">
+        <span class="surah-number">43</span>
+        <span class="surah-name">الزخرف</span>
+        <div class="surah-info">سورة رقم 43</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="44">
+        <span class="surah-number">44</span>
+        <span class="surah-name">الدخان</span>
+        <div class="surah-info">سورة رقم 44</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="45">
+        <span class="surah-number">45</span>
+        <span class="surah-name">الجاثية</span>
+        <div class="surah-info">سورة رقم 45</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="46">
+        <span class="surah-number">46</span>
+        <span class="surah-name">الأحقاف</span>
+        <div class="surah-info">سورة رقم 46</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="47">
+        <span class="surah-number">47</span>
+        <span class="surah-name">محمد</span>
+        <div class="surah-info">سورة رقم 47</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="48">
+        <span class="surah-number">48</span>
+        <span class="surah-name">الفتح</span>
+        <div class="surah-info">سورة رقم 48</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="49">
+        <span class="surah-number">49</span>
+        <span class="surah-name">الحجرات</span>
+        <div class="surah-info">سورة رقم 49</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="50">
+        <span class="surah-number">50</span>
+        <span class="surah-name">ق</span>
+        <div class="surah-info">سورة رقم 50</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="51">
+        <span class="surah-number">51</span>
+        <span class="surah-name">الذاريات</span>
+        <div class="surah-info">سورة رقم 51</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="52">
+        <span class="surah-number">52</span>
+        <span class="surah-name">الطور</span>
+        <div class="surah-info">سورة رقم 52</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="53">
+        <span class="surah-number">53</span>
+        <span class="surah-name">النجم</span>
+        <div class="surah-info">سورة رقم 53</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="54">
+        <span class="surah-number">54</span>
+        <span class="surah-name">القمر</span>
+        <div class="surah-info">سورة رقم 54</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="55">
+        <span class="surah-number">55</span>
+        <span class="surah-name">الرحمن</span>
+        <div class="surah-info">سورة رقم 55</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="56">
+        <span class="surah-number">56</span>
+        <span class="surah-name">الواقعة</span>
+        <div class="surah-info">سورة رقم 56</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="57">
+        <span class="surah-number">57</span>
+        <span class="surah-name">الحديد</span>
+        <div class="surah-info">سورة رقم 57</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="58">
+        <span class="surah-number">58</span>
+        <span class="surah-name">المجادلة</span>
+        <div class="surah-info">سورة رقم 58</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="59">
+        <span class="surah-number">59</span>
+        <span class="surah-name">الحشر</span>
+        <div class="surah-info">سورة رقم 59</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="60">
+        <span class="surah-number">60</span>
+        <span class="surah-name">الممتحنة</span>
+        <div class="surah-info">سورة رقم 60</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="61">
+        <span class="surah-number">61</span>
+        <span class="surah-name">الصف</span>
+        <div class="surah-info">سورة رقم 61</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="62">
+        <span class="surah-number">62</span>
+        <span class="surah-name">الجمعة</span>
+        <div class="surah-info">سورة رقم 62</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="63">
+        <span class="surah-number">63</span>
+        <span class="surah-name">المنافقون</span>
+        <div class="surah-info">سورة رقم 63</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="64">
+        <span class="surah-number">64</span>
+        <span class="surah-name">التغابن</span>
+        <div class="surah-info">سورة رقم 64</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="65">
+        <span class="surah-number">65</span>
+        <span class="surah-name">الطلاق</span>
+        <div class="surah-info">سورة رقم 65</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="66">
+        <span class="surah-number">66</span>
+        <span class="surah-name">التحريم</span>
+        <div class="surah-info">سورة رقم 66</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="67">
+        <span class="surah-number">67</span>
+        <span class="surah-name">الملك</span>
+        <div class="surah-info">سورة رقم 67</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="68">
+        <span class="surah-number">68</span>
+        <span class="surah-name">القلم</span>
+        <div class="surah-info">سورة رقم 68</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="69">
+        <span class="surah-number">69</span>
+        <span class="surah-name">الحاقة</span>
+        <div class="surah-info">سورة رقم 69</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="70">
+        <span class="surah-number">70</span>
+        <span class="surah-name">المعارج</span>
+        <div class="surah-info">سورة رقم 70</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="71">
+        <span class="surah-number">71</span>
+        <span class="surah-name">نوح</span>
+        <div class="surah-info">سورة رقم 71</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="72">
+        <span class="surah-number">72</span>
+        <span class="surah-name">الجن</span>
+        <div class="surah-info">سورة رقم 72</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="73">
+        <span class="surah-number">73</span>
+        <span class="surah-name">المزمل</span>
+        <div class="surah-info">سورة رقم 73</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="74">
+        <span class="surah-number">74</span>
+        <span class="surah-name">المدثر</span>
+        <div class="surah-info">سورة رقم 74</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="75">
+        <span class="surah-number">75</span>
+        <span class="surah-name">القيامة</span>
+        <div class="surah-info">سورة رقم 75</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="76">
+        <span class="surah-number">76</span>
+        <span class="surah-name">الإنسان</span>
+        <div class="surah-info">سورة رقم 76</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="77">
+        <span class="surah-number">77</span>
+        <span class="surah-name">المرسلات</span>
+        <div class="surah-info">سورة رقم 77</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="78">
+        <span class="surah-number">78</span>
+        <span class="surah-name">النبأ</span>
+        <div class="surah-info">سورة رقم 78</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="79">
+        <span class="surah-number">79</span>
+        <span class="surah-name">النازعات</span>
+        <div class="surah-info">سورة رقم 79</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="80">
+        <span class="surah-number">80</span>
+        <span class="surah-name">عبس</span>
+        <div class="surah-info">سورة رقم 80</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="81">
+        <span class="surah-number">81</span>
+        <span class="surah-name">التكوير</span>
+        <div class="surah-info">سورة رقم 81</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="82">
+        <span class="surah-number">82</span>
+        <span class="surah-name">الانفطار</span>
+        <div class="surah-info">سورة رقم 82</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="83">
+        <span class="surah-number">83</span>
+        <span class="surah-name">المطففين</span>
+        <div class="surah-info">سورة رقم 83</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="84">
+        <span class="surah-number">84</span>
+        <span class="surah-name">الانشقاق</span>
+        <div class="surah-info">سورة رقم 84</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="85">
+        <span class="surah-number">85</span>
+        <span class="surah-name">البروج</span>
+        <div class="surah-info">سورة رقم 85</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="86">
+        <span class="surah-number">86</span>
+        <span class="surah-name">الطارق</span>
+        <div class="surah-info">سورة رقم 86</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="87">
+        <span class="surah-number">87</span>
+        <span class="surah-name">الأعلى</span>
+        <div class="surah-info">سورة رقم 87</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="88">
+        <span class="surah-number">88</span>
+        <span class="surah-name">الغاشية</span>
+        <div class="surah-info">سورة رقم 88</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="89">
+        <span class="surah-number">89</span>
+        <span class="surah-name">الفجر</span>
+        <div class="surah-info">سورة رقم 89</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="90">
+        <span class="surah-number">90</span>
+        <span class="surah-name">البلد</span>
+        <div class="surah-info">سورة رقم 90</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="91">
+        <span class="surah-number">91</span>
+        <span class="surah-name">الشمس</span>
+        <div class="surah-info">سورة رقم 91</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="92">
+        <span class="surah-number">92</span>
+        <span class="surah-name">الليل</span>
+        <div class="surah-info">سورة رقم 92</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="93">
+        <span class="surah-number">93</span>
+        <span class="surah-name">الضحى</span>
+        <div class="surah-info">سورة رقم 93</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="94">
+        <span class="surah-number">94</span>
+        <span class="surah-name">الشرح</span>
+        <div class="surah-info">سورة رقم 94</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="95">
+        <span class="surah-number">95</span>
+        <span class="surah-name">التين</span>
+        <div class="surah-info">سورة رقم 95</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="96">
+        <span class="surah-number">96</span>
+        <span class="surah-name">العلق</span>
+        <div class="surah-info">سورة رقم 96</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="97">
+        <span class="surah-number">97</span>
+        <span class="surah-name">القدر</span>
+        <div class="surah-info">سورة رقم 97</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="98">
+        <span class="surah-number">98</span>
+        <span class="surah-name">البينة</span>
+        <div class="surah-info">سورة رقم 98</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="99">
+        <span class="surah-number">99</span>
+        <span class="surah-name">الزلزلة</span>
+        <div class="surah-info">سورة رقم 99</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="100">
+        <span class="surah-number">100</span>
+        <span class="surah-name">العاديات</span>
+        <div class="surah-info">سورة رقم 100</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="101">
+        <span class="surah-number">101</span>
+        <span class="surah-name">القارعة</span>
+        <div class="surah-info">سورة رقم 101</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="102">
+        <span class="surah-number">102</span>
+        <span class="surah-name">التكاثر</span>
+        <div class="surah-info">سورة رقم 102</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="103">
+        <span class="surah-number">103</span>
+        <span class="surah-name">العصر</span>
+        <div class="surah-info">سورة رقم 103</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="104">
+        <span class="surah-number">104</span>
+        <span class="surah-name">الهمزة</span>
+        <div class="surah-info">سورة رقم 104</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="105">
+        <span class="surah-number">105</span>
+        <span class="surah-name">الفيل</span>
+        <div class="surah-info">سورة رقم 105</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="106">
+        <span class="surah-number">106</span>
+        <span class="surah-name">قريش</span>
+        <div class="surah-info">سورة رقم 106</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="107">
+        <span class="surah-number">107</span>
+        <span class="surah-name">الماعون</span>
+        <div class="surah-info">سورة رقم 107</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="108">
+        <span class="surah-number">108</span>
+        <span class="surah-name">الكوثر</span>
+        <div class="surah-info">سورة رقم 108</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="109">
+        <span class="surah-number">109</span>
+        <span class="surah-name">الكافرون</span>
+        <div class="surah-info">سورة رقم 109</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="110">
+        <span class="surah-number">110</span>
+        <span class="surah-name">النصر</span>
+        <div class="surah-info">سورة رقم 110</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="111">
+        <span class="surah-number">111</span>
+        <span class="surah-name">المسد</span>
+        <div class="surah-info">سورة رقم 111</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="112">
+        <span class="surah-number">112</span>
+        <span class="surah-name">الإخلاص</span>
+        <div class="surah-info">سورة رقم 112</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="113">
+        <span class="surah-number">113</span>
+        <span class="surah-name">الفلق</span>
+        <div class="surah-info">سورة رقم 113</div>
+      </div>
+
+      <div class="surah" onclick="openSurah(this.dataset.surah)" data-surah="114">
+        <span class="surah-number">114</span>
+        <span class="surah-name">الناس</span>
+        <div class="surah-info">سورة رقم 114</div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <script>
+
+function openSurah(number) {
+  window.location.href = "reader.html?surah=" + number;
+}
+
+const search = document.getElementById("search");
+const surahs = document.querySelectorAll(".surah");
+const SEARCH_SURAH_NAMES = [
+"الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس",
+"هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه",
+"الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم",
+"لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر",
+"فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق",
+"الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة",
+"الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج",
+"نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس",
+"التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد",
+"الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات",
+"القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر",
+"المسد","الإخلاص","الفلق","الناس"
+];
+
+const resultsBox = document.getElementById("smartSearchResults");
+
+/* توحيد النص العربي */
+function normalizeArabic(text) {
+  return text
+    .toLowerCase()
+    .replace(/[\u064B-\u065F\u0670]/g, "")
+    .replace(/[إأآٱ]/g, "ا")
+    .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/ة/g, "ه")
+    .replace(/ـ/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/* حساب الفرق بين كلمتين */
+function levenshtein(a, b) {
+
+  const matrix = [];
+
+  for (let i = 0; i <= b.length; i++) {
+    matrix[i] = [i];
+  }
+
+  for (let j = 0; j <= a.length; j++) {
+    matrix[0][j] = j;
+  }
+
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1
+        );
+      }
+
+    }
+  }
+
+  return matrix[b.length][a.length];
+}
+
+/* البحث التقريبي */
+function isSimilar(query, text) {
+
+  query = normalizeArabic(query);
+  text = normalizeArabic(text);
+
+  if (!query) return true;
+
+  if (text.includes(query)) return true;
+
+  const words = text.split(/\s+/);
+
+  for (const word of words) {
+
+    if (word.includes(query) || query.includes(word)) {
+      return true;
+    }
+
+    if (
+      query.length >= 3 &&
+      word.length >= 3
+    ) {
+
+      const distance = levenshtein(query, word);
+
+      const allowed =
+        query.length <= 4 ? 1 :
+        query.length <= 7 ? 2 : 3;
+
+      if (distance <= allowed) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function showSearchResults(query) {
+  if (!resultsBox) return;
+
+  query = query.trim();
+
+  if (!query) {
+    resultsBox.style.display = "none";
+    resultsBox.innerHTML = "";
+    surahs.forEach(function(surah) {
+      surah.style.display = "";
+    });
+    return;
+  }
+
+  surahs.forEach(function(surah) {
+    surah.style.display = "none";
+  });
+
+  const data = window.QURAN_DATA;
+
+  if (!data || !data.surahs) {
+    resultsBox.style.display = "block";
+    resultsBox.innerHTML =
+      '<div style="padding:15px">بيانات القرآن لم يتم تحميلها.</div>';
+    return;
+  }
+
+  const results = [];
+
+  Object.keys(data.surahs).forEach(function(surahNumber) {
+    const ayahs = data.surahs[surahNumber];
+
+    if (!Array.isArray(ayahs)) return;
+
+    ayahs.forEach(function(ayah) {
+      if (isSimilar(query, ayah.text)) {
+        const number = Number(surahNumber);
+
+        results.push({
+          surah: number,
+          surahName: SEARCH_SURAH_NAMES[number - 1] || ("سورة " + number),
+          ayah: ayah.ayah,
+          text: ayah.text
+        });
+      }
+    });
+  });
+
+  resultsBox.style.display = "block";
+
+  if (!results.length) {
+    resultsBox.innerHTML = `
+      <div style="
+        padding:20px;
+        text-align:center;
+        background:#111;
+        border-radius:12px;
+      ">
+        لا توجد نتائج قريبة من البحث.
+      </div>
+    `;
+    return;
+  }
+
+  const limitedResults = results.slice(0, 100);
+
+  resultsBox.innerHTML = `
+    <div style="
+      margin-bottom:12px;
+      padding:10px;
+      background:#123d2b;
+      border-radius:10px;
+      text-align:center;
+    ">
+      تم العثور على ${results.length} نتيجة
+    </div>
+  `;
+
+  limitedResults.forEach(function(result) {
+    const item = document.createElement("div");
+
+    item.style.cssText = `
+      background:#111;
+      border:1px solid #24533d;
+      border-radius:12px;
+      padding:15px;
+      margin-bottom:10px;
+      cursor:pointer;
+    `;
+
+    item.innerHTML = `
+      <div style="
+        color:#8ee6b2;
+        font-weight:bold;
+        margin-bottom:8px;
+      ">
+        سورة ${result.surahName} — الآية ${result.ayah}
+      </div>
+
+      <div style="
+        font-size:20px;
+        line-height:2;
+        direction:rtl;
+        text-align:right;
+      ">
+        ${result.text}
+      </div>
+    `;
+
+    item.onclick = function() {
+      window.location.href =
+        "reader.html?surah=" + result.surah;
+    };
+
+    resultsBox.appendChild(item);
+  });
+}
+
+if (search) {
+
+  search.addEventListener("input", function() {
+    showSearchResults(search.value);
+  });
+
+}
+
+</script>
+
+</body>
+
+</html>

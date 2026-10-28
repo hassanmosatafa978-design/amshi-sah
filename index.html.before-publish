@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>امشي صح</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #050805;
+      color: white;
+      min-height: 100vh;
+    }
+
+    header {
+      background: #063b24;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 1px solid #12613d;
+    }
+
+    .logo {
+      font-size: 32px;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .slogan {
+      color: #b7d8c5;
+      font-size: 15px;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 30px auto;
+    }
+
+    .welcome {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 18px;
+      padding: 25px;
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .welcome h1 {
+      color: #55b77b;
+      margin-bottom: 10px;
+    }
+
+    .welcome p {
+      color: #c5c5c5;
+      line-height: 1.8;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+    }
+
+    .card {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 18px;
+      padding: 25px 15px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      border-color: #55b77b;
+      background: #0e1812;
+    }
+
+    .icon {
+      font-size: 38px;
+      margin-bottom: 12px;
+    }
+
+    .card h2 {
+      color: #55b77b;
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #aaa;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    footer {
+      text-align: center;
+      color: #777;
+      padding: 30px 10px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 600px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .logo {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🌿 امشي صح</div>
+    <div class="slogan">طريقك للقرآن والذكر والحفظ</div>
+  
+    <a href="pages/admin.html" style="
+      display:inline-block;
+      padding:12px 20px;
+      margin:10px;
+      border-radius:10px;
+      background:#176b49;
+      color:white;
+      text-decoration:none;
+      font-weight:bold;
+      border:1px solid #4ade80;
+    ">🔐 دخول الإدارة</a>
+    
+</header>
+
+  <main class="container">
+
+    <section class="welcome">
+      <h1>أهلاً بك في امشي صح</h1>
+      <p>
+        القرآن الكريم، الاستماع، الأحاديث، الأذكار،
+        ومتابعة حفظ القرآن في مكان واحد.
+      </p>
+    </section>
+
+    <section class="grid">
+
+      <div class="card" onclick="window.location.href='pages/read-quran.html?surah=1'">
+<div class="icon">📖</div>
+<h2>قراءة القرآن</h2>
+<p>اقرأ القرآن الكريم واختر السورة التي تريدها.</p>
+</div>
+
+      <div class="card" onclick="window.location.href='pages/quran.html?surah=1'">
+<div class="icon">🎧</div>
+<h2>سماع القرآن</h2>
+<p>استمع إلى القرآن الكريم بأصوات الشيوخ والروايات.</p>
+</div>
+
+      <div class="card" onclick="window.location.href='pages/hadith.html'">
+<div class="icon">🕌</div>
+<h2>الأحاديث</h2>
+<p>اقرأ الأحاديث من مصادر موثوقة.</p>
+</div>
+
+      <div class="card" onclick="window.location.href='pages/adhkar.html'" role="link" tabindex="0" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();window.location.href='pages/adhkar.html'}">
+        <div class="icon">🤲</div>
+        <h2>الأذكار</h2>
+        <p>أذكار الصباح والمساء والتسبيح.</p>
+      </div>
+
+      <a href="pages/login.html" class="card" style="text-decoration:none;color:inherit;">
+        <div class="icon">📚</div>
+        <h2>الاهتمام بحفظ القرآن</h2>
+        <p>أنشئ حسابًا وابدأ خطة حفظ ومتابعة مع المسؤول.</p>
+      </a>
+
+      <div class="card">
+        <div class="icon">💬</div>
+        <h2>التواصل مع المسؤول</h2>
+        <p>تواصل مع مسؤول الحفظ وتابع مواعيد التسميع.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <footer>
+    © 2026 امشي صح — مشروع لخدمة القرآن والذكر
+  </footer>
+
+  <script src="js/supabase-config.js"></script>
+</body>
+</html>

@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول - امشي صح</title>
+
+<style>
+*{box-sizing:border-box}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#06140f;
+color:white;
+}
+
+.container{
+width:min(95%,500px);
+margin:auto;
+padding:30px 15px;
+}
+
+.box{
+background:#0c241b;
+border:1px solid #174c38;
+border-radius:18px;
+padding:25px;
+margin-top:30px;
+}
+
+h1,h2{color:#4ade80}
+
+input,button{
+width:100%;
+padding:14px;
+margin-top:12px;
+border-radius:10px;
+border:1px solid #28634b;
+background:#071a13;
+color:white;
+font-size:16px;
+}
+
+button{
+background:#176b49;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{background:#21845c}
+
+.secondary{
+background:#123528;
+}
+
+.message{
+margin-top:15px;
+padding:10px;
+border-radius:8px;
+}
+
+.success{color:#4ade80}
+.error{color:#f87171}
+
+.hidden{display:none}
+
+a{
+color:#4ade80;
+text-decoration:none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<div class="box">
+
+<h1>🕌 امشي صح</h1>
+<h2>تسجيل الدخول</h2>
+
+<input id="loginPhone" type="tel" placeholder="رقم الهاتف">
+
+<input id="loginPassword" type="password" placeholder="كلمة المرور">
+
+<button onclick="login()">دخول</button>
+
+<button class="secondary" onclick="showRegister()">
+إنشاء حساب جديد
+</button>
+
+<div id="loginMessage"></div>
+
+</div>
+
+
+<div id="registerBox" class="box hidden">
+
+<h2>📝 إنشاء حساب طالب</h2>
+
+<input id="registerName" type="text" placeholder="الاسم الكامل">
+
+<input id="registerAge" type="number" min="5" max="100" placeholder="السن">
+
+<input id="registerPhone" type="text" placeholder="رقم الهاتف">
+
+<input id="registerPassword" type="password" placeholder="كلمة المرور">
+
+<select id="registerGrade">
+<option value="">اختر الصف الدراسي</option>
+<option>الصف الأول الابتدائي</option>
+<option>الصف الثاني الابتدائي</option>
+<option>الصف الثالث الابتدائي</option>
+<option>الصف الرابع الابتدائي</option>
+<option>الصف الخامس الابتدائي</option>
+<option>الصف السادس الابتدائي</option>
+<option>الصف الأول الإعدادي</option>
+<option>الصف الثاني الإعدادي</option>
+<option>الصف الثالث الإعدادي</option>
+<option>الصف الأول الثانوي</option>
+<option>الصف الثاني الثانوي</option>
+<option>الصف الثالث الثانوي</option>
+</select>
+
+<input id="registerSchool" type="text" placeholder="اسم المدرسة">
+
+<button onclick="register()">
+إنشاء الحساب
+</button>
+
+<button class="secondary" onclick="showLogin()">
+العودة لتسجيل الدخول
+</button>
+
+<div id="registerMessage"></div>
+
+</div>
+
+
+</div>
+
+<div id="verifyBox" class="box hidden">
+  <h2>تأكيد الحساب</h2>
+  <p>أدخل كود التحقق المرسل إليك</p>
+
+  <input id="verifyCode"
+         type="text"
+         inputmode="numeric"
+         maxlength="6"
+         placeholder="أدخل الكود المكون من 6 أرقام">
+
+  <button onclick="verifyCode()">تأكيد الكود</button>
+
+  <div id="verifyMessage"></div>
+</div>
+
+
+</div>
+
+</div>
+
+
+<script src="../js/supabase-config.js">
+
+function showWhatsAppVerification(){
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("registerBox").classList.add("hidden");
+  document.getElementById("whatsappVerifyBox").classList.remove("hidden");
+}
+
+function verifyWhatsAppCode(){
+  const code = document.getElementById("whatsappCode").value.trim();
+  const message = document.getElementById("whatsappVerifyMessage");
+
+  if(!/^\d{6}$/.test(code)){
+    message.textContent = "من فضلك أدخل كود مكون من 6 أرقام.";
+    return;
+  }
+
+  message.textContent =
+    "تم التحقق من الكود. حسابك الآن في انتظار موافقة الإدارة.";
+}
+
+</script>
+
+
+<script>
+
+function headers(){
+return {
+"apikey": window.AMSHI_SUPABASE.anonKey,
+"Authorization": "Bearer " + window.AMSHI_SUPABASE.anonKey,
+"Content-Type": "application/json"
+};
+}
+
+
+function showRegister(){
+document.getElementById("registerBox").classList.remove("hidden");
+document.querySelector(".container .box").classList.add("hidden");
+}
+
+
+function showLogin(){
+document.getElementById("registerBox").classList.add("hidden");
+document.querySelector(".container .box").classList.remove("hidden");
+}
+
+
+
+function showVerifyBox(){
+  document.getElementById("loginBox").classList.add("hidden");
+  document.getElementById("registerBox").classList.add("hidden");
+  document.getElementById("verifyBox").classList.remove("hidden");
+}
+
+function verifyCode(){
+  const code = document.getElementById("verifyCode").value.trim();
+  const message = document.getElementById("verifyMessage");
+
+  if(!/^\\d{6}$/.test(code)){
+    message.textContent = "اكتب كود مكون من 6 أرقام";
+    return;
+  }
+
+  message.textContent = "تم إدخال الكود بنجاح. سنربط التحقق الحقيقي بعد ذلك.";
+}
+
+async function register(){
+  const name = document.getElementById("registerName").value.trim();
+  const age = document.getElementById("registerAge").value.trim();
+  const phone = document.getElementById("registerPhone").value.trim();
+  const password = document.getElementById("registerPassword").value;
+  const grade = document.getElementById("registerGrade").value;
+  const school = document.getElementById("registerSchool").value.trim();
+
+  const message = document.getElementById("registerMessage");
+
+  if(!name || !age || !phone || !password || !grade || !school){
+    message.className = "message error";
+    message.textContent = "من فضلك أكمل جميع البيانات.";
+    return;
+  }
+
+  if(password.length < 6){
+    message.className = "message error";
+    message.textContent = "كلمة المرور يجب أن تكون 6 أحرف أو أكثر.";
+    return;
+  }
+
+  if(Number(age) < 5 || Number(age) > 100){
+    message.className = "message error";
+    message.textContent = "من فضلك اكتب سنًا صحيحًا.";
+    return;
+  }
+
+  try{
+    message.className = "message";
+    message.textContent = "جاري إنشاء الحساب...";
+
+    const response = await fetch(
+      window.AMSHI_SUPABASE.url + "/functions/v1/hyper-task",
+      {
+        method: "POST",
+        headers: {
+          ...headers(),
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: name,
+          age: Number(age),
+          phone: phone,
+          password: password,
+          grade: grade,
+          school: school
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if(!response.ok){
+      throw new Error(
+        data.error ||
+        data.message ||
+        "تعذر إنشاء الحساب."
+      );
+    }
+
+    message.className = "message success";
+    message.textContent =
+      "تم إنشاء الحساب بنجاح ✅ حسابك الآن تحت مراجعة الإدارة.";
+
+    document.getElementById("registerName").value = "";
+    document.getElementById("registerAge").value = "";
+    document.getElementById("registerPhone").value = "";
+    document.getElementById("registerPassword").value = "";
+    document.getElementById("registerGrade").value = "";
+    document.getElementById("registerSchool").value = "";
+
+  }catch(error){
+    message.className = "message error";
+    message.textContent = error.message;
+  }
+}
+
+
+async function login(){
+
+  const phone = document.getElementById("loginPhone").value.trim();
+  const password = document.getElementById("loginPassword").value;
+
+  const message = document.getElementById("loginMessage");
+
+  if(!phone || !password){
+    message.className = "message error";
+    message.textContent = "اكتب رقم الهاتف وكلمة المرور.";
+    return;
+  }
+
+  try{
+
+    message.className = "message";
+    message.textContent = "جاري تسجيل الدخول...";
+
+    const internalEmail = phone + "@amshisah.app";
+
+    /* تسجيل الدخول باستخدام Email/Password */
+    const response = await fetch(
+      window.AMSHI_SUPABASE.url +
+      "/auth/v1/token?grant_type=password",
+      {
+        method: "POST",
+        headers: headers(),
+        body: JSON.stringify({
+          email: internalEmail,
+          password: password
+        })
+      }
+    );
+
+    const data = await response.json();
+
+    if(!response.ok){
+      throw new Error(
+        data.error_description ||
+        data.msg ||
+        data.message ||
+        "بيانات الدخول غير صحيحة"
+      );
+    }
+
+    /* البحث عن بيانات الطالب */
+    const profileResponse = await fetch(
+      window.AMSHI_SUPABASE.url +
+      "/rest/v1/users?select=*&phone=eq." +
+      encodeURIComponent(phone) +
+      "&role=eq.student",
+      {
+        headers: {
+          ...headers(),
+          "Authorization": "Bearer " + data.access_token
+        }
+      }
+    );
+
+    const profiles = await profileResponse.json();
+
+    if(!profileResponse.ok){
+      throw new Error("تعذر التحقق من حالة حساب الطالب.");
+    }
+
+    if(!profiles.length){
+      throw new Error("لم يتم العثور على بيانات الطالب.");
+    }
+
+    const profile = profiles[0];
+
+    if(profile.status === "pending"){
+      throw new Error("حسابك ما زال تحت مراجعة الإدارة ⏳");
+    }
+
+    if(profile.status === "rejected"){
+      throw new Error("تم رفض طلب إنشاء الحساب من الإدارة.");
+    }
+
+    if(profile.status !== "approved"){
+      throw new Error("حالة الحساب غير معروفة، راجع الإدارة.");
+    }
+
+    message.className = "message success";
+    message.textContent = "تم تسجيل الدخول بنجاح ✅";
+
+    localStorage.setItem(
+      "amshi_sah_access_token",
+      data.access_token
+    );
+
+    localStorage.setItem(
+      "amshi_sah_user",
+      JSON.stringify({
+        ...data.user,
+        profile: profile
+      })
+    );
+
+    window.location.href = "student.html";
+
+  }catch(error){
+
+    message.className = "message error";
+    message.textContent = error.message;
+
+  }
+
+}
+
+</script>
+
+</body>
+</html>

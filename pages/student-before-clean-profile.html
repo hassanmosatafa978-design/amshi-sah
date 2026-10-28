@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>منصة أمشي صح - الطالب</title>
+<link rel="stylesheet" href="../css/style.css">
+<style>
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f5f7fa;
+  color:#222;
+}
+.header{
+  background:#198754;
+  color:white;
+  padding:20px;
+  text-align:center;
+}
+.container{
+  padding:20px;
+  max-width:900px;
+  margin:auto;
+}
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:15px;
+}
+.card{
+  background:white;
+  border-radius:15px;
+  padding:25px 15px;
+  text-align:center;
+  box-shadow:0 3px 12px #0001;
+  cursor:pointer;
+  font-size:18px;
+}
+.card:hover{
+  transform:translateY(-2px);
+}
+.icon{
+  font-size:40px;
+  display:block;
+  margin-bottom:10px;
+}
+.section{
+  background:white;
+  margin-top:20px;
+  padding:20px;
+  border-radius:15px;
+  box-shadow:0 3px 12px #0001;
+}
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 18px;
+  background:#198754;
+  color:white;
+  cursor:pointer;
+  margin:5px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <h1>أهلاً بك في أمشي صح 🌿</h1>
+  <p id="studentWelcome">منصة الطالب التعليمية</p>
+  <button onclick="logout()" style="background:#dc3545;">تسجيل الخروج</button>
+</div>
+
+<div class="container">
+
+  <div class="section" id="studentProfile">
+    <h2>👤 بيانات الطالب</h2>
+    <p>جاري تحميل بياناتك...</p>
+  </div>
+
+  <div class="section" id="studentProfile">
+    <h2>👤 بيانات الطالب</h2>
+    <p>جاري تحميل بياناتك...</p>
+  </div>
+
+  <div class="cards">
+
+    <div class="card" onclick="showSection('quran')">
+      <span class="icon">📖</span>
+      القرآن الكريم
+    </div>
+
+    <div class="card" onclick="showSection('hadith')">
+      <span class="icon">🕌</span>
+      الأحاديث النبوية
+    </div>
+
+    <div class="card" onclick="showSection('novels')">
+      <span class="icon">📚</span>
+      الروايات
+    </div>
+
+    <div class="card" onclick="showSection('audio')">
+      <span class="icon">🎧</span>
+      الصوتيات
+    </div>
+
+  </div>
+
+  <div id="content" class="section">
+    <h2>مرحبًا بك 👋</h2>
+    <p>اختر القسم الذي تريد الدخول إليه.</p>
+  </div>
+
+</div>
+
+<script>
+function loadStudentProfile(){
+
+  const profileBox = document.getElementById("studentProfile");
+
+  try{
+
+    const savedUser = JSON.parse(
+      localStorage.getItem("amshi_sah_user") || "null"
+    );
+
+    const profile = savedUser && savedUser.profile
+      ? savedUser.profile
+      : null;
+
+    if(!profile){
+      profileBox.innerHTML = `
+        <h2>👤 بيانات الطالب</h2>
+        <p>لم يتم العثور على بيانات الحساب.</p>
+      `;
+      return;
+    }
+
+    document.getElementById("studentWelcome").textContent =
+      "أهلاً بك يا " + (profile.full_name || "طالب") + " 🌿";
+
+    profileBox.innerHTML = `
+      <h2>👤 بيانات الطالب</h2>
+      <p><strong>الاسم:</strong> ${escapeHtml(profile.full_name)}</p>
+      <p><strong>رقم الهاتف:</strong> ${escapeHtml(profile.phone)}</p>
+      <p><strong>السن:</strong> ${escapeHtml(profile.age)}</p>
+      <p><strong>الصف:</strong> ${escapeHtml(profile.grade)}</p>
+      <p><strong>المدرسة:</strong> ${escapeHtml(profile.school)}</p>
+      <p><strong>حالة الحساب:</strong> 🟢 مقبول</p>
+    `;
+
+  }catch(error){
+
+    console.error(error);
+
+    profileBox.innerHTML = `
+      <h2>👤 بيانات الطالب</h2>
+      <p>حدث خطأ أثناء تحميل البيانات.</p>
+    `;
+  }
+}
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function logout(){
+
+  localStorage.removeItem("amshi_sah_access_token");
+  localStorage.removeItem("amshi_sah_user");
+
+  window.location.href="login.html";
+}
+
+loadStudentProfile();
+</script>
+
+<script>
+function loadStudentProfile(){
+
+  const profileBox = document.getElementById("studentProfile");
+
+  try{
+
+    const savedUser = JSON.parse(
+      localStorage.getItem("amshi_sah_user") || "null"
+    );
+
+    const profile = savedUser && savedUser.profile
+      ? savedUser.profile
+      : null;
+
+    if(!profile){
+      profileBox.innerHTML = `
+        <h2>👤 بيانات الطالب</h2>
+        <p>لم يتم العثور على بيانات الحساب.</p>
+      `;
+      return;
+    }
+
+    document.getElementById("studentWelcome").textContent =
+      "أهلاً بك يا " + (profile.full_name || "طالب") + " 🌿";
+
+    profileBox.innerHTML = `
+      <h2>👤 بيانات الطالب</h2>
+      <p><strong>الاسم:</strong> ${escapeHtml(profile.full_name)}</p>
+      <p><strong>رقم الهاتف:</strong> ${escapeHtml(profile.phone)}</p>
+      <p><strong>السن:</strong> ${escapeHtml(profile.age)}</p>
+      <p><strong>الصف:</strong> ${escapeHtml(profile.grade)}</p>
+      <p><strong>المدرسة:</strong> ${escapeHtml(profile.school)}</p>
+      <p><strong>حالة الحساب:</strong> 🟢 مقبول</p>
+    `;
+
+  }catch(error){
+
+    console.error(error);
+
+    profileBox.innerHTML = `
+      <h2>👤 بيانات الطالب</h2>
+      <p>حدث خطأ أثناء تحميل البيانات.</p>
+    `;
+  }
+}
+
+function escapeHtml(value){
+  return String(value ?? "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+}
+
+function logout(){
+
+  localStorage.removeItem("amshi_sah_access_token");
+  localStorage.removeItem("amshi_sah_user");
+
+  window.location.href="login.html";
+}
+
+loadStudentProfile();
+</script>
+
+<script>
+function showSection(section){
+
+  const content=document.getElementById("content");
+
+  if(section==="quran"){
+    content.innerHTML=`
+      <h2>📖 القرآن الكريم</h2>
+      <p>هنا ستكون السور والآيات والتلاوات الصوتية.</p>
+      <button onclick="alert('قسم القرآن قيد التجهيز')">
+        فتح القرآن
+      </button>
+    `;
+  }
+
+  if(section==="hadith"){
+    content.innerHTML=`
+      <h2>🕌 الأحاديث النبوية</h2>
+      <p>هنا ستكون كتب الأحاديث والبحث داخلها.</p>
+      <button onclick="alert('قسم الأحاديث قيد التجهيز')">
+        فتح الأحاديث
+      </button>
+    `;
+  }
+
+  if(section==="novels"){
+    content.innerHTML=`
+      <h2>📚 الروايات</h2>
+      <p>هنا ستكون الروايات والقراءة والاستماع.</p>
+      <button onclick="alert('قسم الروايات قيد التجهيز')">
+        فتح الروايات
+      </button>
+    `;
+  }
+
+  if(section==="audio"){
+    content.innerHTML=`
+      <h2>🎧 الصوتيات</h2>
+      <p>هنا سيكون مشغل القرآن والأحاديث والروايات.</p>
+      <audio controls style="width:100%;">
+        <source src="" type="audio/mpeg">
+      </audio>
+    `;
+  }
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>إدارة - امشي صح</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #06140f;
+      color: #fff;
+    }
+
+    .container {
+      width: min(95%, 1000px);
+      margin: auto;
+      padding: 30px 15px;
+    }
+
+    .box {
+      background: #0c241b;
+      border: 1px solid #174c38;
+      border-radius: 18px;
+      padding: 25px;
+      margin-top: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+    }
+
+    h1, h2 {
+      color: #4ade80;
+    }
+
+    input, select, button {
+      width: 100%;
+      padding: 13px;
+      margin-top: 10px;
+      border-radius: 10px;
+      border: 1px solid #28634b;
+      background: #071a13;
+      color: white;
+      font-size: 16px;
+    }
+
+    button {
+      background: #176b49;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #21845c;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .card {
+      background: #071a13;
+      border: 1px solid #174c38;
+      padding: 18px;
+      border-radius: 14px;
+      margin-top: 15px;
+    }
+
+    .logout {
+      background: #6b1d1d;
+    }
+
+    .success {
+      color: #4ade80;
+      margin-top: 12px;
+    }
+
+    .error {
+      color: #f87171;
+      margin-top: 12px;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- تسجيل الدخول -->
+  <section id="loginBox" class="box">
+
+    <h1>🕌 امشي صح</h1>
+    <h2>دخول الإدارة</h2>
+
+    <input
+      id="adminName"
+      type="text"
+      placeholder="اسم الإدارة"
+      autocomplete="username"
+    >
+
+    <input
+      id="adminPassword"
+      type="password"
+      placeholder="كلمة المرور"
+      autocomplete="current-password"
+    >
+
+    <button onclick="adminLogin()">دخول</button>
+
+    <div id="loginMessage"></div>
+
+  </section>
+
+
+  <!-- لوحة الإدارة -->
+  <section id="dashboard" class="hidden">
+
+    <div class="box">
+
+      <h1>لوحة إدارة امشي صح</h1>
+
+      <p>
+        أهلاً بك يا <strong>الشيخ حسن</strong> 👋
+      </p>
+
+      <button onclick="showSection('responsibles')">
+        👨‍🏫 المسؤولون والمعلمون
+      </button>
+
+      <button onclick="showSection('students')">
+        👨‍🎓 الطلاب
+      </button>
+
+      <button onclick="showSection('memorization')">
+        📖 الحفظ والتسميع
+      </button>
+
+      <button onclick="showSection('chat')">
+        💬 المحادثات
+      </button>
+
+      <button class="logout" onclick="logout()">
+        تسجيل الخروج
+      </button>
+
+    </div>
+
+
+    <!-- المسؤولون -->
+    <div id="responsibles" class="box hidden">
+
+      <h2>👨‍🏫 إضافة مسؤول</h2>
+
+      <input
+        id="responsibleName"
+        type="text"
+        placeholder="اسم المسؤول"
+      >
+
+      <input
+        id="responsibleEmail"
+        type="email"
+        placeholder="البريد الإلكتروني"
+      >
+
+      <input
+        id="responsiblePhone"
+        type="text"
+        placeholder="رقم الهاتف"
+      >
+
+      <select id="responsibleRole">
+        <option value="teacher">معلم</option>
+        <option value="responsible">مسؤول</option>
+      </select>
+
+      <button onclick="addResponsible()">
+        إضافة المسؤول
+      </button>
+
+      <div id="responsibleMessage"></div>
+
+      <div class="card">
+        <strong>الصلاحيات التي سنضيفها لاحقًا:</strong>
+        <p>• متابعة الطلاب</p>
+        <p>• إدارة الحفظ</p>
+        <p>• تسجيل التسميع</p>
+        <p>• المحادثات</p>
+        <p>• عرض النتائج</p>
+      </div>
+
+    </div>
+
+
+    <!-- الطلاب -->
+    <div id="students" class="box hidden">
+      <h2>👨‍🎓 الطلاب</h2>
+
+      <button onclick="loadStudents()">🔄 تحديث الطلاب</button>
+
+      <div id="studentsMessage" style="margin:15px 0;"></div>
+
+      <div style="overflow-x:auto;">
+        <table style="width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th>الاسم</th>
+              <th>الهاتف</th>
+              <th>السن</th>
+              <th>الصف</th>
+              <th>المدرسة</th>
+              <th>الحالة</th>
+              <th>الإجراء</th>
+            </tr>
+          </thead>
+          <tbody id="studentsTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+
+    <!-- الحفظ -->
+    <div id="memorization" class="box hidden">
+      <h2>📖 الحفظ والتسميع</h2><button onclick="refreshSection('memorization')">🔄 تحديث من Supabase</button>
+      <p>هنا سنضع خطط الحفظ ومواعيد التسميع ونتائج كل طالب.</p>
+    </div>
+
+
+    <!-- المحادثات -->
+    <div id="chat" class="box hidden">
+      <h2>💬 المحادثات</h2><button onclick="refreshSection('chat')">🔄 تحديث من Supabase</button>
+      <p>هنا ستكون المحادثة الخاصة بين الطالب والمسؤول.</p>
+    </div>
+
+  </section>
+
+</div>
+
+
+<script>
+function adminLogin() {
+
+  const name = document.getElementById("adminName").value.trim();
+  const password = document.getElementById("adminPassword").value;
+
+  const message = document.getElementById("loginMessage");
+
+  if (name === "الشيخ حسن" && password === "123456") {
+
+    document.getElementById("loginBox").classList.add("hidden");
+    document.getElementById("dashboard").classList.remove("hidden");
+
+    message.textContent = "";
+
+  } else {
+
+    message.className = "error";
+    message.textContent = "اسم الإدارة أو كلمة المرور غير صحيحة.";
+
+  }
+}
+
+
+function showSection(id) {
+
+  const sections = [
+    "responsibles",
+    "students",
+    "memorization",
+    "chat"
+  ];
+
+  sections.forEach(section => {
+    document.getElementById(section).classList.add("hidden");
+  });
+
+  document.getElementById(id).classList.remove("hidden");
+}
+
+
+function addResponsible() {
+
+  const name = document.getElementById("responsibleName").value.trim();
+  const email = document.getElementById("responsibleEmail").value.trim();
+  const phone = document.getElementById("responsiblePhone").value.trim();
+  const role = document.getElementById("responsibleRole").value;
+
+  const message = document.getElementById("responsibleMessage");
+
+  if (!name || !email || !phone) {
+
+    message.className = "error";
+    message.textContent = "اكتب بيانات المسؤول كاملة.";
+
+    return;
+  }
+
+  message.className = "success";
+  message.textContent =
+    "تم إدخال بيانات المسؤول. الخطوة التالية ربط الإضافة بقاعدة Supabase.";
+
+  console.log({
+    name,
+    email,
+    phone,
+    role
+  });
+}
+
+
+function logout() {
+
+  document.getElementById("dashboard").classList.add("hidden");
+  document.getElementById("loginBox").classList.remove("hidden");
+
+  document.getElementById("adminPassword").value = "";
+
+}
+</script>
+
+<script src="../js/supabase-config.js"></script>
+
+<script>
+async function loadStudents() {
+    const config = window.AMSHI_SUPABASE;
+    const body = document.getElementById("studentsTableBody");
+    const message = document.getElementById("studentsMessage");
+
+    if (!config || !config.url || !config.anonKey) {
+        message.textContent = "إعدادات Supabase غير موجودة.";
+        return;
+    }
+
+    message.textContent = "جاري تحميل الطلاب...";
+
+    try {
+        const response = await fetch(
+            config.url + "/rest/v1/users?select=id,full_name,phone,age,grade,school,status,role&role=eq.student&order=created_at.desc",
+            {
+                headers: {
+                    "apikey": config.anonKey,
+                    "Authorization": "Bearer " + config.anonKey
+                }
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || "فشل تحميل الطلاب");
+        }
+
+        body.innerHTML = "";
+
+        if (!data.length) {
+            body.innerHTML = '<tr><td colspan="7">لا يوجد طلاب حاليًا.</td></tr>';
+            message.textContent = "";
+            return;
+        }
+
+        data.forEach(student => {
+            const tr = document.createElement("tr");
+
+            tr.innerHTML = `
+                <td>${escapeStudent(student.full_name)}</td>
+                <td>${escapeStudent(student.phone)}</td>
+                <td>${escapeStudent(student.age)}</td>
+                <td>${escapeStudent(student.grade)}</td>
+                <td>${escapeStudent(student.school)}</td>
+                <td>${statusText(student.status)}</td>
+                <td>
+                    ${
+                        student.status === "pending"
+                        ? `
+                            <button onclick="updateStudentStatus('${student.id}','approved')">
+                                ✅ قبول
+                            </button>
+                            <button onclick="updateStudentStatus('${student.id}','rejected')">
+                                ❌ رفض
+                            </button>
+                          `
+                        : student.status === "approved"
+                        ? "✅ مقبول"
+                        : "❌ مرفوض"
+                    }
+                </td>
+            `;
+
+            body.appendChild(tr);
+        });
+
+        message.textContent = "تم تحميل " + data.length + " طالب ✅";
+
+    } catch (error) {
+        console.error(error);
+        message.textContent = "حصل خطأ أثناء تحميل الطلاب: " + error.message;
+    }
+}
+
+function statusText(status) {
+    if (status === "pending") return "🟡 قيد المراجعة";
+    if (status === "approved") return "🟢 مقبول";
+    if (status === "rejected") return "🔴 مرفوض";
+    return status || "غير محدد";
+}
+
+function escapeStudent(value) {
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+async function updateStudentStatus(id, status) {
+    const config = window.AMSHI_SUPABASE;
+
+    if (!config || !config.url || !config.anonKey) {
+        alert("إعدادات Supabase غير موجودة.");
+        return;
+    }
+
+    const action = status === "approved" ? "قبول الطالب" : "رفض الطالب";
+
+    if (!confirm("هل تريد " + action + "؟")) {
+        return;
+    }
+
+    try {
+        const response = await fetch(
+            config.url + "/rest/v1/users?id=eq." + encodeURIComponent(id),
+            {
+                method: "PATCH",
+                headers: {
+                    "apikey": config.anonKey,
+                    "Authorization": "Bearer " + config.anonKey,
+                    "Content-Type": "application/json",
+                    "Prefer": "return=representation"
+                },
+                body: JSON.stringify({
+                    status: status
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || data.msg || "فشل تحديث حالة الطالب");
+        }
+
+        alert(
+            status === "approved"
+            ? "تم قبول الطالب ✅"
+            : "تم رفض الطالب ❌"
+        );
+
+        loadStudents();
+
+    } catch (error) {
+        console.error(error);
+        alert("حصل خطأ: " + error.message);
+    }
+}
+</script>
+
+
+<script>
+async function refreshSection(section) {
+    const config = window.AMSHI_SUPABASE;
+
+    if (!config || !config.url || !config.anonKey) {
+        alert("إعدادات Supabase غير موجودة.");
+        return;
+    }
+
+    const tables = {
+        students: "users",
+        responsibles: "users",
+        memorization: "memorization_plans",
+        chat: "chat_messages"
+    };
+
+    const table = tables[section];
+
+    try {
+        const response = await fetch(
+            config.url + "/rest/v1/" + table + "?select=*",
+            {
+                headers: {
+                    "apikey": config.anonKey,
+                    "Authorization": "Bearer " + config.anonKey
+                }
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("فشل الاتصال بـ Supabase");
+        }
+
+        const data = await response.json();
+
+        alert(
+            "تم تحديث البيانات من Supabase ✅\n\n" +
+            "عدد السجلات الحالية: " + data.length
+        );
+
+        console.log("بيانات محدثة:", section, data);
+
+    } catch (error) {
+        console.error(error);
+        alert("حصل خطأ أثناء تحديث البيانات.");
+    }
+}
+</script>
+
+</body>
+</html>

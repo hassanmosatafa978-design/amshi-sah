@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الأحاديث النبوية - امشي صح</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07100b;color:#f1f5f2;font-family:Arial,sans-serif}
+header{background:#0b120e;border-bottom:1px solid #174f35;padding:24px 16px;text-align:center}
+h1{color:#55b77b;margin:0 0 10px}
+header p{color:#bbb;margin:0}
+.back{display:inline-block;margin-top:16px;color:#55b77b;text-decoration:none}
+main{max-width:850px;margin:25px auto;padding:0 15px}
+.search{width:100%;padding:14px;border-radius:12px;border:1px solid #174f35;background:#0b120e;color:white;font-size:16px;margin-bottom:18px}
+.categories{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:20px}
+button{background:#0e1812;color:#55b77b;border:1px solid #174f35;border-radius:10px;padding:11px 15px;cursor:pointer}
+button.active{background:#174f35;color:white}
+.card{background:#0b120e;border:1px solid #174f35;border-radius:16px;padding:20px;margin-bottom:15px;line-height:1.9}
+.card h2{color:#55b77b;font-size:19px}
+.source{color:#bbb;font-size:14px;border-top:1px solid #174f35;padding-top:12px;margin-top:15px}
+#status{color:#bbb;text-align:center;padding:20px}
+</style>
+</head>
+<body>
+<header>
+<h1>🕌 الأحاديث النبوية</h1>
+<p>تعلّم من هدي النبي ﷺ في امشي صح</p>
+<a class="back" href="../index.html">← العودة للرئيسية</a>
+</header>
+<main>
+<input id="search" class="search" type="search" placeholder="ابحث في نص الحديث أو المصدر..." aria-label="البحث في الأحاديث">
+<div class="categories">
+<button class="active" data-category="all">كل الأحاديث</button>
+<button data-category="faith">الإيمان</button>
+<button data-category="manners">الأخلاق والآداب</button>
+<button data-category="worship">العبادات</button>
+</div>
+<div id="status">جاري تجهيز الأحاديث...</div>
+<section id="hadithList"></section>
+</main>
+<script>
+const search=document.getElementById('search');
+const list=document.getElementById('hadithList');
+const status=document.getElementById('status');
+let category='all';
+let hadiths=[];
+
+function render(){
+ const q=search.value.trim().toLowerCase();
+ const filtered=hadiths.filter(h=>
+  (category==='all'||h.category===category)&&
+  (h.text+' '+h.source).toLowerCase().includes(q)
+ );
+ list.innerHTML='';
+ filtered.forEach(h=>{
+  const article=document.createElement('article');
+  article.className='card';
+  const title=document.createElement('h2');
+  title.textContent=h.title;
+  const text=document.createElement('p');
+  text.textContent=h.text;
+  const source=document.createElement('div');
+  source.className='source';
+  source.textContent=h.source;
+  article.append(title,text,source);
+  list.appendChild(article);
+ });
+ status.textContent=filtered.length?'':'لا توجد نتائج مطابقة.';
+}
+
+fetch('../data/hadith/hadiths.json')
+.then(r=>{if(!r.ok)throw new Error('data');return r.json()})
+.then(data=>{hadiths=data;render()})
+.catch(()=>{status.textContent='ملف بيانات الأحاديث لم يُضف بعد. سنربط الصفحة ببيانات موثوقة في الخطوة التالية.'});
+
+search.addEventListener('input',render);
+document.querySelectorAll('[data-category]').forEach(btn=>{
+ btn.addEventListener('click',()=>{
+  category=btn.dataset.category;
+  document.querySelectorAll('[data-category]').forEach(b=>b.classList.toggle('active',b===btn));
+  render();
+ });
+});
+</script>
+</body>
+</html>

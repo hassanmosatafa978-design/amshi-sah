@@ -1,0 +1,1018 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>القرآن الكريم - امشي صح</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #050805;
+      color: white;
+    }
+
+    header {
+      background: #063b24;
+      padding: 18px;
+      text-align: center;
+      border-bottom: 1px solid #174f35;
+    }
+
+    header h1 {
+      font-size: 28px;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    header p {
+      color: #b7d8c5;
+      font-size: 14px;
+    }
+
+    .back {
+      display: inline-block;
+      margin-top: 15px;
+      color: #55b77b;
+      text-decoration: none;
+      font-size: 15px;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 25px auto;
+    }
+
+    .search {
+      width: 100%;
+      padding: 15px;
+      border-radius: 12px;
+      border: 1px solid #174f35;
+      background: #0b120e;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-bottom: 20px;
+    }
+
+    .search:focus {
+      border-color: #55b77b;
+    }
+
+    .readers {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      padding: 18px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+    }
+
+    .readers h2 {
+      color: #55b77b;
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
+
+    select {
+      width: 100%;
+      padding: 13px;
+      border-radius: 10px;
+      border: 1px solid #174f35;
+      background: #050805;
+      color: white;
+      font-size: 15px;
+    }
+
+    .surah-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .surah {
+      background: #0b120e;
+      border: 1px solid #174f35;
+      border-radius: 15px;
+      padding: 18px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .surah:hover {
+      border-color: #55b77b;
+      transform: translateY(-2px);
+    }
+
+    .surah-number {
+      display: inline-flex;
+      width: 34px;
+      height: 34px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: #063b24;
+      color: #55b77b;
+      margin-left: 8px;
+    }
+
+    .surah-name {
+      font-size: 18px;
+      font-weight: bold;
+    }
+
+    .surah-info {
+      color: #888;
+      font-size: 13px;
+      margin-top: 8px;
+    }
+
+    @media (max-width: 600px) {
+      .surah-list {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+  <script src="../data/quran/quran-data.js"></script>
+</head>
+
+<body>
+
+  <header>
+
+    <h1>📖 القرآن الكريم</h1>
+
+    <p>اقرأ واستمع إلى كتاب الله</p>
+
+    <a class="back" href="../index.html">
+      ← العودة للرئيسية
+    </a>
+
+  </header>
+
+  <main class="container">
+
+    
+
+
+
+    <section class="readers">
+
+      <h2>📖 اختر الرواية</h2>
+
+      <select id="riwaya">
+        <option value="hafs">حفص عن عاصم</option>
+        <option value="warsh">ورش عن نافع</option>
+        <option value="qaloon">قالون عن نافع</option>
+      </select>
+
+      <h2 style="margin-top: 18px;">🎙️ اختر الشيخ</h2>
+
+      <select id="sheikh">
+
+        <option value="">اختر الشيخ</option>
+
+        <option value="abdulbasit">
+          عبد الباسط عبد الصمد
+        </option>
+
+        <option value="husary">
+          محمود خليل الحصري
+        </option>
+
+        <option value="minshawi">
+          محمد صديق المنشاوي
+        </option>
+
+        <option value="afasy">
+          مشاري راشد العفاسي
+        </option>
+
+      </select>
+
+    </section>
+
+    <section class="surah-list" id="surahList">
+<div class="surah" data-surah="1" onclick="openSurah(1)">
+  <span class="surah-number">1</span>
+  <span class="surah-name">الفاتحة</span>
+  <div class="surah-info">مكية • 7 آية</div>
+</div>
+<div class="surah" data-surah="2" onclick="openSurah(2)">
+  <span class="surah-number">2</span>
+  <span class="surah-name">البقرة</span>
+  <div class="surah-info">مدنية • 286 آية</div>
+</div>
+<div class="surah" data-surah="3" onclick="openSurah(3)">
+  <span class="surah-number">3</span>
+  <span class="surah-name">آل عمران</span>
+  <div class="surah-info">مدنية • 200 آية</div>
+</div>
+<div class="surah" data-surah="4" onclick="openSurah(4)">
+  <span class="surah-number">4</span>
+  <span class="surah-name">النساء</span>
+  <div class="surah-info">مدنية • 176 آية</div>
+</div>
+<div class="surah" data-surah="5" onclick="openSurah(5)">
+  <span class="surah-number">5</span>
+  <span class="surah-name">المائدة</span>
+  <div class="surah-info">مدنية • 120 آية</div>
+</div>
+<div class="surah" data-surah="6" onclick="openSurah(6)">
+  <span class="surah-number">6</span>
+  <span class="surah-name">الأنعام</span>
+  <div class="surah-info">مكية • 165 آية</div>
+</div>
+<div class="surah" data-surah="7" onclick="openSurah(7)">
+  <span class="surah-number">7</span>
+  <span class="surah-name">الأعراف</span>
+  <div class="surah-info">مكية • 206 آية</div>
+</div>
+<div class="surah" data-surah="8" onclick="openSurah(8)">
+  <span class="surah-number">8</span>
+  <span class="surah-name">الأنفال</span>
+  <div class="surah-info">مدنية • 75 آية</div>
+</div>
+<div class="surah" data-surah="9" onclick="openSurah(9)">
+  <span class="surah-number">9</span>
+  <span class="surah-name">التوبة</span>
+  <div class="surah-info">مدنية • 129 آية</div>
+</div>
+<div class="surah" data-surah="10" onclick="openSurah(10)">
+  <span class="surah-number">10</span>
+  <span class="surah-name">يونس</span>
+  <div class="surah-info">مكية • 109 آية</div>
+</div>
+<div class="surah" data-surah="11" onclick="openSurah(11)">
+  <span class="surah-number">11</span>
+  <span class="surah-name">هود</span>
+  <div class="surah-info">مكية • 123 آية</div>
+</div>
+<div class="surah" data-surah="12" onclick="openSurah(12)">
+  <span class="surah-number">12</span>
+  <span class="surah-name">يوسف</span>
+  <div class="surah-info">مكية • 111 آية</div>
+</div>
+<div class="surah" data-surah="13" onclick="openSurah(13)">
+  <span class="surah-number">13</span>
+  <span class="surah-name">الرعد</span>
+  <div class="surah-info">مدنية • 43 آية</div>
+</div>
+<div class="surah" data-surah="14" onclick="openSurah(14)">
+  <span class="surah-number">14</span>
+  <span class="surah-name">إبراهيم</span>
+  <div class="surah-info">مكية • 52 آية</div>
+</div>
+<div class="surah" data-surah="15" onclick="openSurah(15)">
+  <span class="surah-number">15</span>
+  <span class="surah-name">الحجر</span>
+  <div class="surah-info">مكية • 99 آية</div>
+</div>
+<div class="surah" data-surah="16" onclick="openSurah(16)">
+  <span class="surah-number">16</span>
+  <span class="surah-name">النحل</span>
+  <div class="surah-info">مكية • 128 آية</div>
+</div>
+<div class="surah" data-surah="17" onclick="openSurah(17)">
+  <span class="surah-number">17</span>
+  <span class="surah-name">الإسراء</span>
+  <div class="surah-info">مكية • 111 آية</div>
+</div>
+<div class="surah" data-surah="18" onclick="openSurah(18)">
+  <span class="surah-number">18</span>
+  <span class="surah-name">الكهف</span>
+  <div class="surah-info">مكية • 110 آية</div>
+</div>
+<div class="surah" data-surah="19" onclick="openSurah(19)">
+  <span class="surah-number">19</span>
+  <span class="surah-name">مريم</span>
+  <div class="surah-info">مكية • 98 آية</div>
+</div>
+<div class="surah" data-surah="20" onclick="openSurah(20)">
+  <span class="surah-number">20</span>
+  <span class="surah-name">طه</span>
+  <div class="surah-info">مكية • 135 آية</div>
+</div>
+<div class="surah" data-surah="21" onclick="openSurah(21)">
+  <span class="surah-number">21</span>
+  <span class="surah-name">الأنبياء</span>
+  <div class="surah-info">مكية • 112 آية</div>
+</div>
+<div class="surah" data-surah="22" onclick="openSurah(22)">
+  <span class="surah-number">22</span>
+  <span class="surah-name">الحج</span>
+  <div class="surah-info">مدنية • 78 آية</div>
+</div>
+<div class="surah" data-surah="23" onclick="openSurah(23)">
+  <span class="surah-number">23</span>
+  <span class="surah-name">المؤمنون</span>
+  <div class="surah-info">مكية • 118 آية</div>
+</div>
+<div class="surah" data-surah="24" onclick="openSurah(24)">
+  <span class="surah-number">24</span>
+  <span class="surah-name">النور</span>
+  <div class="surah-info">مدنية • 64 آية</div>
+</div>
+<div class="surah" data-surah="25" onclick="openSurah(25)">
+  <span class="surah-number">25</span>
+  <span class="surah-name">الفرقان</span>
+  <div class="surah-info">مكية • 77 آية</div>
+</div>
+<div class="surah" data-surah="26" onclick="openSurah(26)">
+  <span class="surah-number">26</span>
+  <span class="surah-name">الشعراء</span>
+  <div class="surah-info">مكية • 227 آية</div>
+</div>
+<div class="surah" data-surah="27" onclick="openSurah(27)">
+  <span class="surah-number">27</span>
+  <span class="surah-name">النمل</span>
+  <div class="surah-info">مكية • 93 آية</div>
+</div>
+<div class="surah" data-surah="28" onclick="openSurah(28)">
+  <span class="surah-number">28</span>
+  <span class="surah-name">القصص</span>
+  <div class="surah-info">مكية • 88 آية</div>
+</div>
+<div class="surah" data-surah="29" onclick="openSurah(29)">
+  <span class="surah-number">29</span>
+  <span class="surah-name">العنكبوت</span>
+  <div class="surah-info">مكية • 69 آية</div>
+</div>
+<div class="surah" data-surah="30" onclick="openSurah(30)">
+  <span class="surah-number">30</span>
+  <span class="surah-name">الروم</span>
+  <div class="surah-info">مكية • 60 آية</div>
+</div>
+<div class="surah" data-surah="31" onclick="openSurah(31)">
+  <span class="surah-number">31</span>
+  <span class="surah-name">لقمان</span>
+  <div class="surah-info">مكية • 34 آية</div>
+</div>
+<div class="surah" data-surah="32" onclick="openSurah(32)">
+  <span class="surah-number">32</span>
+  <span class="surah-name">السجدة</span>
+  <div class="surah-info">مكية • 30 آية</div>
+</div>
+<div class="surah" data-surah="33" onclick="openSurah(33)">
+  <span class="surah-number">33</span>
+  <span class="surah-name">الأحزاب</span>
+  <div class="surah-info">مدنية • 73 آية</div>
+</div>
+<div class="surah" data-surah="34" onclick="openSurah(34)">
+  <span class="surah-number">34</span>
+  <span class="surah-name">سبأ</span>
+  <div class="surah-info">مكية • 54 آية</div>
+</div>
+<div class="surah" data-surah="35" onclick="openSurah(35)">
+  <span class="surah-number">35</span>
+  <span class="surah-name">فاطر</span>
+  <div class="surah-info">مكية • 45 آية</div>
+</div>
+<div class="surah" data-surah="36" onclick="openSurah(36)">
+  <span class="surah-number">36</span>
+  <span class="surah-name">يس</span>
+  <div class="surah-info">مكية • 83 آية</div>
+</div>
+<div class="surah" data-surah="37" onclick="openSurah(37)">
+  <span class="surah-number">37</span>
+  <span class="surah-name">الصافات</span>
+  <div class="surah-info">مكية • 182 آية</div>
+</div>
+<div class="surah" data-surah="38" onclick="openSurah(38)">
+  <span class="surah-number">38</span>
+  <span class="surah-name">ص</span>
+  <div class="surah-info">مكية • 88 آية</div>
+</div>
+<div class="surah" data-surah="39" onclick="openSurah(39)">
+  <span class="surah-number">39</span>
+  <span class="surah-name">الزمر</span>
+  <div class="surah-info">مكية • 75 آية</div>
+</div>
+<div class="surah" data-surah="40" onclick="openSurah(40)">
+  <span class="surah-number">40</span>
+  <span class="surah-name">غافر</span>
+  <div class="surah-info">مكية • 85 آية</div>
+</div>
+<div class="surah" data-surah="41" onclick="openSurah(41)">
+  <span class="surah-number">41</span>
+  <span class="surah-name">فصلت</span>
+  <div class="surah-info">مكية • 54 آية</div>
+</div>
+<div class="surah" data-surah="42" onclick="openSurah(42)">
+  <span class="surah-number">42</span>
+  <span class="surah-name">الشورى</span>
+  <div class="surah-info">مكية • 53 آية</div>
+</div>
+<div class="surah" data-surah="43" onclick="openSurah(43)">
+  <span class="surah-number">43</span>
+  <span class="surah-name">الزخرف</span>
+  <div class="surah-info">مكية • 89 آية</div>
+</div>
+<div class="surah" data-surah="44" onclick="openSurah(44)">
+  <span class="surah-number">44</span>
+  <span class="surah-name">الدخان</span>
+  <div class="surah-info">مكية • 59 آية</div>
+</div>
+<div class="surah" data-surah="45" onclick="openSurah(45)">
+  <span class="surah-number">45</span>
+  <span class="surah-name">الجاثية</span>
+  <div class="surah-info">مكية • 37 آية</div>
+</div>
+<div class="surah" data-surah="46" onclick="openSurah(46)">
+  <span class="surah-number">46</span>
+  <span class="surah-name">الأحقاف</span>
+  <div class="surah-info">مكية • 35 آية</div>
+</div>
+<div class="surah" data-surah="47" onclick="openSurah(47)">
+  <span class="surah-number">47</span>
+  <span class="surah-name">محمد</span>
+  <div class="surah-info">مدنية • 38 آية</div>
+</div>
+<div class="surah" data-surah="48" onclick="openSurah(48)">
+  <span class="surah-number">48</span>
+  <span class="surah-name">الفتح</span>
+  <div class="surah-info">مدنية • 29 آية</div>
+</div>
+<div class="surah" data-surah="49" onclick="openSurah(49)">
+  <span class="surah-number">49</span>
+  <span class="surah-name">الحجرات</span>
+  <div class="surah-info">مدنية • 18 آية</div>
+</div>
+<div class="surah" data-surah="50" onclick="openSurah(50)">
+  <span class="surah-number">50</span>
+  <span class="surah-name">ق</span>
+  <div class="surah-info">مكية • 45 آية</div>
+</div>
+<div class="surah" data-surah="51" onclick="openSurah(51)">
+  <span class="surah-number">51</span>
+  <span class="surah-name">الذاريات</span>
+  <div class="surah-info">مكية • 60 آية</div>
+</div>
+<div class="surah" data-surah="52" onclick="openSurah(52)">
+  <span class="surah-number">52</span>
+  <span class="surah-name">الطور</span>
+  <div class="surah-info">مكية • 49 آية</div>
+</div>
+<div class="surah" data-surah="53" onclick="openSurah(53)">
+  <span class="surah-number">53</span>
+  <span class="surah-name">النجم</span>
+  <div class="surah-info">مكية • 62 آية</div>
+</div>
+<div class="surah" data-surah="54" onclick="openSurah(54)">
+  <span class="surah-number">54</span>
+  <span class="surah-name">القمر</span>
+  <div class="surah-info">مكية • 55 آية</div>
+</div>
+<div class="surah" data-surah="55" onclick="openSurah(55)">
+  <span class="surah-number">55</span>
+  <span class="surah-name">الرحمن</span>
+  <div class="surah-info">مدنية • 78 آية</div>
+</div>
+<div class="surah" data-surah="56" onclick="openSurah(56)">
+  <span class="surah-number">56</span>
+  <span class="surah-name">الواقعة</span>
+  <div class="surah-info">مكية • 96 آية</div>
+</div>
+<div class="surah" data-surah="57" onclick="openSurah(57)">
+  <span class="surah-number">57</span>
+  <span class="surah-name">الحديد</span>
+  <div class="surah-info">مدنية • 29 آية</div>
+</div>
+<div class="surah" data-surah="58" onclick="openSurah(58)">
+  <span class="surah-number">58</span>
+  <span class="surah-name">المجادلة</span>
+  <div class="surah-info">مدنية • 22 آية</div>
+</div>
+<div class="surah" data-surah="59" onclick="openSurah(59)">
+  <span class="surah-number">59</span>
+  <span class="surah-name">الحشر</span>
+  <div class="surah-info">مدنية • 24 آية</div>
+</div>
+<div class="surah" data-surah="60" onclick="openSurah(60)">
+  <span class="surah-number">60</span>
+  <span class="surah-name">الممتحنة</span>
+  <div class="surah-info">مدنية • 13 آية</div>
+</div>
+<div class="surah" data-surah="61" onclick="openSurah(61)">
+  <span class="surah-number">61</span>
+  <span class="surah-name">الصف</span>
+  <div class="surah-info">مدنية • 14 آية</div>
+</div>
+<div class="surah" data-surah="62" onclick="openSurah(62)">
+  <span class="surah-number">62</span>
+  <span class="surah-name">الجمعة</span>
+  <div class="surah-info">مدنية • 11 آية</div>
+</div>
+<div class="surah" data-surah="63" onclick="openSurah(63)">
+  <span class="surah-number">63</span>
+  <span class="surah-name">المنافقون</span>
+  <div class="surah-info">مدنية • 11 آية</div>
+</div>
+<div class="surah" data-surah="64" onclick="openSurah(64)">
+  <span class="surah-number">64</span>
+  <span class="surah-name">التغابن</span>
+  <div class="surah-info">مدنية • 18 آية</div>
+</div>
+<div class="surah" data-surah="65" onclick="openSurah(65)">
+  <span class="surah-number">65</span>
+  <span class="surah-name">الطلاق</span>
+  <div class="surah-info">مدنية • 12 آية</div>
+</div>
+<div class="surah" data-surah="66" onclick="openSurah(66)">
+  <span class="surah-number">66</span>
+  <span class="surah-name">التحريم</span>
+  <div class="surah-info">مدنية • 12 آية</div>
+</div>
+<div class="surah" data-surah="67" onclick="openSurah(67)">
+  <span class="surah-number">67</span>
+  <span class="surah-name">الملك</span>
+  <div class="surah-info">مكية • 30 آية</div>
+</div>
+<div class="surah" data-surah="68" onclick="openSurah(68)">
+  <span class="surah-number">68</span>
+  <span class="surah-name">القلم</span>
+  <div class="surah-info">مكية • 52 آية</div>
+</div>
+<div class="surah" data-surah="69" onclick="openSurah(69)">
+  <span class="surah-number">69</span>
+  <span class="surah-name">الحاقة</span>
+  <div class="surah-info">مكية • 52 آية</div>
+</div>
+<div class="surah" data-surah="70" onclick="openSurah(70)">
+  <span class="surah-number">70</span>
+  <span class="surah-name">المعارج</span>
+  <div class="surah-info">مكية • 44 آية</div>
+</div>
+<div class="surah" data-surah="71" onclick="openSurah(71)">
+  <span class="surah-number">71</span>
+  <span class="surah-name">نوح</span>
+  <div class="surah-info">مكية • 28 آية</div>
+</div>
+<div class="surah" data-surah="72" onclick="openSurah(72)">
+  <span class="surah-number">72</span>
+  <span class="surah-name">الجن</span>
+  <div class="surah-info">مكية • 28 آية</div>
+</div>
+<div class="surah" data-surah="73" onclick="openSurah(73)">
+  <span class="surah-number">73</span>
+  <span class="surah-name">المزمل</span>
+  <div class="surah-info">مكية • 20 آية</div>
+</div>
+<div class="surah" data-surah="74" onclick="openSurah(74)">
+  <span class="surah-number">74</span>
+  <span class="surah-name">المدثر</span>
+  <div class="surah-info">مكية • 56 آية</div>
+</div>
+<div class="surah" data-surah="75" onclick="openSurah(75)">
+  <span class="surah-number">75</span>
+  <span class="surah-name">القيامة</span>
+  <div class="surah-info">مكية • 40 آية</div>
+</div>
+<div class="surah" data-surah="76" onclick="openSurah(76)">
+  <span class="surah-number">76</span>
+  <span class="surah-name">الإنسان</span>
+  <div class="surah-info">مدنية • 31 آية</div>
+</div>
+<div class="surah" data-surah="77" onclick="openSurah(77)">
+  <span class="surah-number">77</span>
+  <span class="surah-name">المرسلات</span>
+  <div class="surah-info">مكية • 50 آية</div>
+</div>
+<div class="surah" data-surah="78" onclick="openSurah(78)">
+  <span class="surah-number">78</span>
+  <span class="surah-name">النبأ</span>
+  <div class="surah-info">مكية • 40 آية</div>
+</div>
+<div class="surah" data-surah="79" onclick="openSurah(79)">
+  <span class="surah-number">79</span>
+  <span class="surah-name">النازعات</span>
+  <div class="surah-info">مكية • 46 آية</div>
+</div>
+<div class="surah" data-surah="80" onclick="openSurah(80)">
+  <span class="surah-number">80</span>
+  <span class="surah-name">عبس</span>
+  <div class="surah-info">مكية • 42 آية</div>
+</div>
+<div class="surah" data-surah="81" onclick="openSurah(81)">
+  <span class="surah-number">81</span>
+  <span class="surah-name">التكوير</span>
+  <div class="surah-info">مكية • 29 آية</div>
+</div>
+<div class="surah" data-surah="82" onclick="openSurah(82)">
+  <span class="surah-number">82</span>
+  <span class="surah-name">الانفطار</span>
+  <div class="surah-info">مكية • 19 آية</div>
+</div>
+<div class="surah" data-surah="83" onclick="openSurah(83)">
+  <span class="surah-number">83</span>
+  <span class="surah-name">المطففين</span>
+  <div class="surah-info">مكية • 36 آية</div>
+</div>
+<div class="surah" data-surah="84" onclick="openSurah(84)">
+  <span class="surah-number">84</span>
+  <span class="surah-name">الانشقاق</span>
+  <div class="surah-info">مكية • 25 آية</div>
+</div>
+<div class="surah" data-surah="85" onclick="openSurah(85)">
+  <span class="surah-number">85</span>
+  <span class="surah-name">البروج</span>
+  <div class="surah-info">مكية • 22 آية</div>
+</div>
+<div class="surah" data-surah="86" onclick="openSurah(86)">
+  <span class="surah-number">86</span>
+  <span class="surah-name">الطارق</span>
+  <div class="surah-info">مكية • 17 آية</div>
+</div>
+<div class="surah" data-surah="87" onclick="openSurah(87)">
+  <span class="surah-number">87</span>
+  <span class="surah-name">الأعلى</span>
+  <div class="surah-info">مكية • 19 آية</div>
+</div>
+<div class="surah" data-surah="88" onclick="openSurah(88)">
+  <span class="surah-number">88</span>
+  <span class="surah-name">الغاشية</span>
+  <div class="surah-info">مكية • 26 آية</div>
+</div>
+<div class="surah" data-surah="89" onclick="openSurah(89)">
+  <span class="surah-number">89</span>
+  <span class="surah-name">الفجر</span>
+  <div class="surah-info">مكية • 30 آية</div>
+</div>
+<div class="surah" data-surah="90" onclick="openSurah(90)">
+  <span class="surah-number">90</span>
+  <span class="surah-name">البلد</span>
+  <div class="surah-info">مكية • 20 آية</div>
+</div>
+<div class="surah" data-surah="91" onclick="openSurah(91)">
+  <span class="surah-number">91</span>
+  <span class="surah-name">الشمس</span>
+  <div class="surah-info">مكية • 15 آية</div>
+</div>
+<div class="surah" data-surah="92" onclick="openSurah(92)">
+  <span class="surah-number">92</span>
+  <span class="surah-name">الليل</span>
+  <div class="surah-info">مكية • 21 آية</div>
+</div>
+<div class="surah" data-surah="93" onclick="openSurah(93)">
+  <span class="surah-number">93</span>
+  <span class="surah-name">الضحى</span>
+  <div class="surah-info">مكية • 11 آية</div>
+</div>
+<div class="surah" data-surah="94" onclick="openSurah(94)">
+  <span class="surah-number">94</span>
+  <span class="surah-name">الشرح</span>
+  <div class="surah-info">مكية • 8 آية</div>
+</div>
+<div class="surah" data-surah="95" onclick="openSurah(95)">
+  <span class="surah-number">95</span>
+  <span class="surah-name">التين</span>
+  <div class="surah-info">مكية • 8 آية</div>
+</div>
+<div class="surah" data-surah="96" onclick="openSurah(96)">
+  <span class="surah-number">96</span>
+  <span class="surah-name">العلق</span>
+  <div class="surah-info">مكية • 19 آية</div>
+</div>
+<div class="surah" data-surah="97" onclick="openSurah(97)">
+  <span class="surah-number">97</span>
+  <span class="surah-name">القدر</span>
+  <div class="surah-info">مكية • 5 آية</div>
+</div>
+<div class="surah" data-surah="98" onclick="openSurah(98)">
+  <span class="surah-number">98</span>
+  <span class="surah-name">البينة</span>
+  <div class="surah-info">مدنية • 8 آية</div>
+</div>
+<div class="surah" data-surah="99" onclick="openSurah(99)">
+  <span class="surah-number">99</span>
+  <span class="surah-name">الزلزلة</span>
+  <div class="surah-info">مدنية • 8 آية</div>
+</div>
+<div class="surah" data-surah="100" onclick="openSurah(100)">
+  <span class="surah-number">100</span>
+  <span class="surah-name">العاديات</span>
+  <div class="surah-info">مكية • 11 آية</div>
+</div>
+<div class="surah" data-surah="101" onclick="openSurah(101)">
+  <span class="surah-number">101</span>
+  <span class="surah-name">القارعة</span>
+  <div class="surah-info">مكية • 11 آية</div>
+</div>
+<div class="surah" data-surah="102" onclick="openSurah(102)">
+  <span class="surah-number">102</span>
+  <span class="surah-name">التكاثر</span>
+  <div class="surah-info">مكية • 8 آية</div>
+</div>
+<div class="surah" data-surah="103" onclick="openSurah(103)">
+  <span class="surah-number">103</span>
+  <span class="surah-name">العصر</span>
+  <div class="surah-info">مكية • 3 آية</div>
+</div>
+<div class="surah" data-surah="104" onclick="openSurah(104)">
+  <span class="surah-number">104</span>
+  <span class="surah-name">الهمزة</span>
+  <div class="surah-info">مكية • 9 آية</div>
+</div>
+<div class="surah" data-surah="105" onclick="openSurah(105)">
+  <span class="surah-number">105</span>
+  <span class="surah-name">الفيل</span>
+  <div class="surah-info">مكية • 5 آية</div>
+</div>
+<div class="surah" data-surah="106" onclick="openSurah(106)">
+  <span class="surah-number">106</span>
+  <span class="surah-name">قريش</span>
+  <div class="surah-info">مكية • 4 آية</div>
+</div>
+<div class="surah" data-surah="107" onclick="openSurah(107)">
+  <span class="surah-number">107</span>
+  <span class="surah-name">الماعون</span>
+  <div class="surah-info">مكية • 7 آية</div>
+</div>
+<div class="surah" data-surah="108" onclick="openSurah(108)">
+  <span class="surah-number">108</span>
+  <span class="surah-name">الكوثر</span>
+  <div class="surah-info">مكية • 3 آية</div>
+</div>
+<div class="surah" data-surah="109" onclick="openSurah(109)">
+  <span class="surah-number">109</span>
+  <span class="surah-name">الكافرون</span>
+  <div class="surah-info">مكية • 6 آية</div>
+</div>
+<div class="surah" data-surah="110" onclick="openSurah(110)">
+  <span class="surah-number">110</span>
+  <span class="surah-name">النصر</span>
+  <div class="surah-info">مدنية • 3 آية</div>
+</div>
+<div class="surah" data-surah="111" onclick="openSurah(111)">
+  <span class="surah-number">111</span>
+  <span class="surah-name">المسد</span>
+  <div class="surah-info">مكية • 5 آية</div>
+</div>
+<div class="surah" data-surah="112" onclick="openSurah(112)">
+  <span class="surah-number">112</span>
+  <span class="surah-name">الإخلاص</span>
+  <div class="surah-info">مكية • 4 آية</div>
+</div>
+<div class="surah" data-surah="113" onclick="openSurah(113)">
+  <span class="surah-number">113</span>
+  <span class="surah-name">الفلق</span>
+  <div class="surah-info">مكية • 5 آية</div>
+</div>
+<div class="surah" data-surah="114" onclick="openSurah(114)">
+  <span class="surah-number">114</span>
+  <span class="surah-name">الناس</span>
+  <div class="surah-info">مكية • 6 آية</div>
+</div>
+</section>
+
+  </main>
+
+  <script>
+
+function openSurah(number) {
+  window.location.href = "reader.html?surah=" + number;
+}
+
+const search = document.getElementById("search");
+const surahs = document.querySelectorAll(".surah");
+const SEARCH_SURAH_NAMES = [
+"الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس",
+"هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه",
+"الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم",
+"لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر",
+"فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق",
+"الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة",
+"الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج",
+"نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس",
+"التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد",
+"الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات",
+"القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر",
+"المسد","الإخلاص","الفلق","الناس"
+];
+
+const resultsBox = document.getElementById("smartSearchResults");
+
+/* توحيد النص العربي */
+function normalizeArabic(text) {
+  return text
+    .toLowerCase()
+    .replace(/[\u064B-\u065F\u0670]/g, "")
+    .replace(/[إأآٱ]/g, "ا")
+    .replace(/ى/g, "ي")
+    .replace(/ؤ/g, "و")
+    .replace(/ئ/g, "ي")
+    .replace(/ة/g, "ه")
+    .replace(/ـ/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+/* حساب الفرق بين كلمتين */
+function levenshtein(a, b) {
+
+  const matrix = [];
+
+  for (let i = 0; i <= b.length; i++) {
+    matrix[i] = [i];
+  }
+
+  for (let j = 0; j <= a.length; j++) {
+    matrix[0][j] = j;
+  }
+
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1,
+          matrix[i][j - 1] + 1,
+          matrix[i - 1][j] + 1
+        );
+      }
+
+    }
+  }
+
+  return matrix[b.length][a.length];
+}
+
+/* البحث التقريبي */
+function isSimilar(query, text) {
+
+  query = normalizeArabic(query);
+  text = normalizeArabic(text);
+
+  if (!query) return true;
+
+  if (text.includes(query)) return true;
+
+  const words = text.split(/\s+/);
+
+  for (const word of words) {
+
+    if (word.includes(query) || query.includes(word)) {
+      return true;
+    }
+
+    if (
+      query.length >= 3 &&
+      word.length >= 3
+    ) {
+
+      const distance = levenshtein(query, word);
+
+      const allowed =
+        query.length <= 4 ? 1 :
+        query.length <= 7 ? 2 : 3;
+
+      if (distance <= allowed) {
+        return true;
+      }
+    }
+  }
+
+  return false;
+}
+
+function showSearchResults(query) {
+  if (!resultsBox) return;
+
+  query = query.trim();
+
+  if (!query) {
+    resultsBox.style.display = "none";
+    resultsBox.innerHTML = "";
+    surahs.forEach(function(surah) {
+      surah.style.display = "";
+    });
+    return;
+  }
+
+  surahs.forEach(function(surah) {
+    surah.style.display = "none";
+  });
+
+  const data = window.QURAN_DATA;
+
+  if (!data || !data.surahs) {
+    resultsBox.style.display = "block";
+    resultsBox.innerHTML =
+      '<div style="padding:15px">بيانات القرآن لم يتم تحميلها.</div>';
+    return;
+  }
+
+  const results = [];
+
+  Object.keys(data.surahs).forEach(function(surahNumber) {
+    const ayahs = data.surahs[surahNumber];
+
+    if (!Array.isArray(ayahs)) return;
+
+    ayahs.forEach(function(ayah) {
+      if (isSimilar(query, ayah.text)) {
+        const number = Number(surahNumber);
+
+        results.push({
+          surah: number,
+          surahName: SEARCH_SURAH_NAMES[number - 1] || ("سورة " + number),
+          ayah: ayah.ayah,
+          text: ayah.text
+        });
+      }
+    });
+  });
+
+  resultsBox.style.display = "block";
+
+  if (!results.length) {
+    resultsBox.innerHTML = `
+      <div style="
+        padding:20px;
+        text-align:center;
+        background:#111;
+        border-radius:12px;
+      ">
+        لا توجد نتائج قريبة من البحث.
+      </div>
+    `;
+    return;
+  }
+
+  const limitedResults = results.slice(0, 100);
+
+  resultsBox.innerHTML = `
+    <div style="
+      margin-bottom:12px;
+      padding:10px;
+      background:#123d2b;
+      border-radius:10px;
+      text-align:center;
+    ">
+      تم العثور على ${results.length} نتيجة
+    </div>
+  `;
+
+  limitedResults.forEach(function(result) {
+    const item = document.createElement("div");
+
+    item.style.cssText = `
+      background:#111;
+      border:1px solid #24533d;
+      border-radius:12px;
+      padding:15px;
+      margin-bottom:10px;
+      cursor:pointer;
+    `;
+
+    item.innerHTML = `
+      <div style="
+        color:#8ee6b2;
+        font-weight:bold;
+        margin-bottom:8px;
+      ">
+        سورة ${result.surahName} — الآية ${result.ayah}
+      </div>
+
+      <div style="
+        font-size:20px;
+        line-height:2;
+        direction:rtl;
+        text-align:right;
+      ">
+        ${result.text}
+      </div>
+    `;
+
+    item.onclick = function() {
+      window.location.href =
+        "reader.html?surah=" + result.surah;
+    };
+
+    resultsBox.appendChild(item);
+  });
+}
+
+if (search) {
+
+  search.addEventListener("input", function() {
+    showSearchResults(search.value);
+  });
+
+}
+
+</script>
+
+</body>
+
+</html>
