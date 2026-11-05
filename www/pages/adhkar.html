@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>الأذكار - امشي صح</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#07100b;color:#f1f5f2;font-family:Arial,sans-serif}
+header{background:#0b120e;border-bottom:1px solid #174f35;padding:24px 16px;text-align:center}
+h1{color:#55b77b;margin:0 0 10px}
+header p{color:#bbb;margin:0}
+.back{display:inline-block;margin-top:16px;color:#55b77b;text-decoration:none}
+main{max-width:850px;margin:25px auto;padding:0 15px}
+.tabs{display:flex;gap:10px;margin-bottom:20px}
+button{font-size:16px;background:#0e1812;color:#55b77b;border:1px solid #174f35;border-radius:10px;padding:12px 16px;cursor:pointer}
+.tabs button{flex:1}
+button.active{background:#174f35;color:white}
+.progress-box,.card{background:#0b120e;border:1px solid #174f35;border-radius:16px;padding:18px;margin-bottom:16px}
+.progress-row{display:flex;justify-content:space-between;gap:10px;color:#bbb;font-size:14px}
+progress{width:100%;height:10px;margin-top:12px;accent-color:#55b77b}
+.card h2{color:#55b77b;font-size:18px}
+.text{font-size:21px;line-height:2.1;white-space:pre-wrap}
+.source{color:#bbb;font-size:14px;border-top:1px solid #174f35;padding-top:12px;margin-top:15px;line-height:1.8}
+.counter{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:18px}
+.number{font-size:22px;color:#55b77b;min-width:90px;text-align:center}
+.done{background:#174f35;color:white}
+#status{text-align:center;color:#bbb;padding:20px}
+.actions{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin:20px 0}
+@media(max-width:480px){.text{font-size:19px}.card{padding:15px}}
+</style>
+</head>
+<body>
+<header>
+<h1>🤲 أذكار الصباح والمساء</h1>
+<p>اذكر الله واطمئن قلبك</p>
+<a class="back" href="../index.html">← العودة للرئيسية</a>
+</header>
+
+<main>
+<div class="tabs">
+<label for="categorySelect">اختار قسم الأذكار:</label>
+<select id="categorySelect" style="width:100%;margin-top:10px;background:#0e1812;color:#f1f5f2;border:1px solid #174f35;border-radius:10px;padding:12px;font-size:16px">
+<option value="morning">🌅 أذكار الصباح</option>
+<option value="evening">🌇 أذكار المساء</option>
+<option value="after-prayer">🕌 أذكار بعد الصلاة</option>
+<option value="sleep">🌙 أذكار النوم</option>
+<option value="waking">☀️ أذكار الاستيقاظ</option>
+<option value="food">🍽️ أذكار الطعام والشراب</option>
+<option value="travel">🚗 دعاء السفر</option>
+<option value="distress">🤲 أدعية الكرب والهم</option>
+<option value="daily">📿 أدعية قرآنية متنوعة</option>
+</select>
+</div>
+
+<div class="progress-box">
+<div class="progress-row">
+<span id="progressLabel">إنجاز الأذكار</span>
+<span id="progressText">0 / 0</span>
+</div>
+<progress id="progress" value="0" max="1"></progress>
+</div>
+
+<div id="status">جاري تحميل الأذكار...</div>
+<section id="adhkarList"></section>
+
+<div class="actions">
+<button id="resetBtn" type="button">إعادة العدّ</button>
+</div>
+</main>
+
+<script>
+const list = document.getElementById('adhkarList');
+const statusBox = document.getElementById('status');
+const categorySelect = document.getElementById('categorySelect');
+const progressText = document.getElementById('progressText');
+const progress = document.getElementById('progress');
+
+let currentType = 'morning';
+let currentItems = [];
+let completed = new Set();
+let loadToken = 0;
+
+async function loadAdhkar(type) {
+  const token = ++loadToken;
+  currentType = type;
+  completed = new Set();
+  list.replaceChildren();
+  statusBox.textContent = 'جاري تحميل الأذكار...';
+  categorySelect.value = type;
+
+  try {
+    const response = await fetch('../data/adhkar/' + type + '.json');
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const data = await response.json();
+    if (token !== loadToken) return;
+
+    currentItems = data.items || [];
+    if (!currentItems.length) {
+      statusBox.textContent = 'لا توجد أذكار في هذا الملف حتى الآن.';
+      updateProgress();
+      return;
+    }
+
+    statusBox.textContent = '';
+    currentItems.forEach((item, index) => {
+      const card = document.createElement('article');
+      card.className = 'card';
+
+      const title = document.createElement('h2');
+      title.textContent = 'الذكر ' + (index + 1);
+
+      const text = document.createElement('div');
+      text.className = 'text';
+      text.textContent = item.text;
+
+      const source = document.createElement('div');
+      source.className = 'source';
+      source.textContent = 'المصدر: ' + (item.source || 'غير محدد')
+        + (item.grade ? ' — الحكم: ' + item.grade : '');
+
+      const counter = document.createElement('div');
+      counter.className = 'counter';
+
+      const number = document.createElement('span');
+      number.className = 'number';
+      number.textContent = 'المتبقي: ' + Number(item.count || 1);
+
+      const button = document.createElement('button');
+      button.className = 'done';
+      button.type = 'button';
+      button.textContent = 'تم التسبيح';
+
+      const initialCount = Math.max(1, Number(item.count) || 1);
+      let remaining = initialCount;
+
+      button.addEventListener('click', () => {
+        if (remaining <= 0) return;
+        remaining--;
+        number.textContent = 'المتبقي: ' + remaining;
+        if (remaining === 0) {
+          button.textContent = 'تم ✓';
+          button.disabled = true;
+          button.style.opacity = '0.6';
+          completed.add(index);
+        }
+        updateProgress();
+      });
+
+      counter.append(number, button);
+      card.append(title, text, source, counter);
+      list.appendChild(card);
+    });
+
+    updateProgress();
+  } catch (error) {
+    if (token !== loadToken) return;
+    statusBox.textContent =
+      'تعذر تحميل الأذكار. تأكد من تشغيل الموقع عبر خادم محلي.';
+    console.error(error);
+  }
+}
+
+function updateProgress() {
+  const total = currentItems.length;
+  const done = completed.size;
+  progressText.textContent = done + ' / ' + total;
+  progress.max = Math.max(1, total);
+  progress.value = done;
+}
+
+categorySelect.addEventListener('change', () => loadAdhkar(categorySelect.value));
+document.getElementById('resetBtn').addEventListener('click', () => loadAdhkar(currentType));
+
+loadAdhkar('morning');
+</script>
+</body>
+</html>
